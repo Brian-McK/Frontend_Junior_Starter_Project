@@ -13,9 +13,9 @@ import {
 } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useDialog } from "../Providers/DialogContext";
 import { useGetAllEmployeesQuery, useDeleteEmployeeMutation } from "../Redux/Services/EmployeeSkillLevelService";
+import PsychologyIcon from '@mui/icons-material/Psychology';
 
 function CustomToolbar() {
     return (
@@ -42,9 +42,27 @@ export default function Employees() {
     const [deleteEmployee, deleteEmployeeResult] = useDeleteEmployeeMutation();
 
     const handleViewEmployeeSkillLevelsOpenDialog = async (params) => {
-        const confirmed = await showDialog({
-            title: `${"Edit Employee Details"}`,
-            message: `${"Message goes here"}`,
+
+        console.log(params);
+
+        const testList = [
+            {
+                "primary": "Test",
+                "secondary": "Test Secondary"
+            },
+            {
+                "primary": "Test",
+                "secondary": "Test Secondary"
+            },
+            {
+                "primary": "Test",
+                "secondary": "Test Secondary"
+            },
+        ];
+
+        await showDialog({
+            title: `Employee Skills: ${params.row.firstName} ${params.row.lastName}`,
+            displayList: testList
         });
     };
 
@@ -60,12 +78,11 @@ export default function Employees() {
         const confirmed = await showDialog({
             title: `Employee: ${params.row.firstName} ${params.row.lastName}`,
             message: `Are you sure you want to delete ${params.row.firstName}?`,
+
         });
         if (confirmed) {
             deleteEmployee(params.id);
         }
-
-        console.log(deleteEmployeeResult);
     };
 
     const dataGridDataCols = [
@@ -93,19 +110,19 @@ export default function Employees() {
             field: "age",
             headerName: "Age",
             description: "The Age of the employee",
-            width: 150,
+            width: 50,
         },
         {
             field: "email",
             headerName: "Email",
             description: "The email address of the employee",
-            width: 150,
+            width: 200,
         },
         {
-            field: "ssActive",
+            field: "isActive",
             headerName: "Active",
             description: "Shows wether the employee is active or not",
-            width: 100,
+            width: 70,
             valueGetter: (params) => {
                 if (params.row.IsActive) {
                     return `No`;
@@ -114,17 +131,26 @@ export default function Employees() {
             },
         },
         {
+            field: "view skills",
+            description: "View skill levlels",
+            type: "actions",
+            headerName: "View Skills",
+            width: 130,
+            getActions: (params) => [
+                <GridActionsCellItem
+                    icon={<PsychologyIcon sx={{ color: "#2c8535" }} />}
+                    label="View skill levels"
+                    onClick={() => handleViewEmployeeSkillLevelsOpenDialog(params)}
+                />,
+            ],
+        },
+        {
             field: "actions",
             description: "View skill levlels, edit employee details or delete employee",
             type: "actions",
             headerName: "Actions",
             width: 100,
             getActions: (params) => [
-                <GridActionsCellItem
-                    icon={<RemoveRedEyeIcon sx={{ color: "#2c8535" }} />}
-                    label="View skill levels"
-                    onClick={() => handleViewEmployeeSkillLevelsOpenDialog(params)}
-                />,
                 <GridActionsCellItem
                     icon={<EditIcon sx={{ color: "#2c8535" }} />}
                     label="Edit employee details"

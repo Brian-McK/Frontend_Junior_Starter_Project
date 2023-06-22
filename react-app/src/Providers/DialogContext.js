@@ -5,7 +5,10 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    Grid, List, Typography, ListItem, ListItemText
 } from "@mui/material";
+import FolderIcon from '@mui/icons-material/Folder';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import { createContext, useContext, useState } from "react";
 
 const DialogContext = createContext();
@@ -15,7 +18,11 @@ const DialogProvider = ({ children }) => {
     const [options, setOptions] = useState({
         title: "",
         message: "",
+        displayList: []
     });
+
+    console.log(options);
+
     const [promiseInfo, setPromiseInfo] = useState();
 
     const showDialog = (options) => {
@@ -45,6 +52,22 @@ const DialogProvider = ({ children }) => {
                 <DialogContent dividers sx={{ minWidth: "400px" }}>
                     {options.message && (
                         <DialogContentText>{options.message}</DialogContentText>
+                    )}
+                    {options.displayList && (
+                        <Grid container spacing={2}>
+                            <Grid item>
+                                <List>
+                                    {options.displayList.map((item, index) => (
+                                        <ListItem key={index}>
+                                            <ListItemText
+                                                primary={`${item.primary}` || null}
+                                                secondary={`${item.secondary}` || null}
+                                            />
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </Grid>
+                        </Grid>
                     )}
                 </DialogContent>
                 <DialogActions>
