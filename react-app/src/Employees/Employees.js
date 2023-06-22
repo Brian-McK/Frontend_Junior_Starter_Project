@@ -15,6 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useDialog } from "../Providers/DialogContext";
+import { useGetAllEmployeesQuery } from "../Redux/Services/EmployeeSkillLevelService";
 
 function CustomToolbar() {
     return (
@@ -29,6 +30,16 @@ function CustomToolbar() {
 export default function Employees() {
 
     const showDialog = useDialog();
+
+    const {
+        data = [],
+        error,
+        isLoading,
+        isError,
+        isSuccess,
+    } = useGetAllEmployeesQuery();
+
+    console.log(data);
 
     const handleViewEmployeeSkillLevelsOpenDialog = async (params) => {
         const confirmed = await showDialog({
@@ -57,19 +68,19 @@ export default function Employees() {
 
     const dataGridDataCols = [
         {
-            field: "FirstName",
+            field: "firstName",
             headerName: "First Name",
             description: "The first name of the employee",
             width: 150,
         },
         {
-            field: "LastName",
+            field: "lastName",
             headerName: "Last Name",
             description: "The last name of the employee",
             width: 150,
         },
         {
-            field: "Dob",
+            field: "dob",
             headerName: "Date of birth",
             description: "The date of birth of the employee",
             width: 150,
@@ -77,27 +88,27 @@ export default function Employees() {
                 `${dayjs(params.row.Dob).format("DD/MM/YYYY")}`,
         },
         {
-            field: "Age",
+            field: "age",
             headerName: "Age",
             description: "The Age of the employee",
             width: 150,
         },
         {
-            field: "Email",
+            field: "email",
             headerName: "Email",
             description: "The email address of the employee",
             width: 150,
         },
         {
-            field: "IsActive",
+            field: "ssActive",
             headerName: "Active",
             description: "Shows wether the employee is active or not",
             width: 100,
             valueGetter: (params) => {
                 if (params.row.IsActive) {
-                    return `Yes`;
+                    return `No`;
                 }
-                return `No`;
+                return `Yes`;
             },
         },
         {
