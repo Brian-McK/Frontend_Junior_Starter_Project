@@ -62,6 +62,7 @@ export default function Employees() {
 
         await showDialog({
             title: `Employee Skills: ${params.row.firstName} ${params.row.lastName}`,
+            displayOkButton: true,
             displayList: testList
         });
     };
