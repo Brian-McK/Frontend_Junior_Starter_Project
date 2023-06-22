@@ -12,7 +12,7 @@ export const employeeSkillLevelsApi = createApi({
                 url: `employees`,
                 method: "GET",
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzQzNDU0Mn0.9a1mebaY15VBKH24Zmb6EhF5b2MXtTeHLLrB011OoUw
+                    Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzQ1NDI3MX0.WDbuAChmCpjbI77u7CJqJkEdPZpvR1Bm9xnRDfK3dpY
                     `,
                 },
             }),
@@ -26,6 +26,10 @@ export const employeeSkillLevelsApi = createApi({
             query: (body) => ({
                 url: "employees",
                 method: "POST",
+                headers: {
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzQ1NDI3MX0.WDbuAChmCpjbI77u7CJqJkEdPZpvR1Bm9xnRDfK3dpY
+                    `,
+                },
                 body,
             }),
             invalidatesTags: ["Employee"],
@@ -43,7 +47,7 @@ export const employeeSkillLevelsApi = createApi({
                 url: `employees/${id}`,
                 method: "DELETE",
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzQzNDU0Mn0.9a1mebaY15VBKH24Zmb6EhF5b2MXtTeHLLrB011OoUw
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzQ1NDI3MX0.WDbuAChmCpjbI77u7CJqJkEdPZpvR1Bm9xnRDfK3dpY
                     `,
                 },
             }),

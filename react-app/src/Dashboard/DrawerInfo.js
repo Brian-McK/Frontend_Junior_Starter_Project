@@ -31,14 +31,14 @@ export default function DrawerInfo({ isDrawerOpen }) {
           <>
             <Avatar
               src=""
-              sx={{ width: 170, height: 170, mb: 2 }}
+              sx={{ width: 130, height: 130, mb: 2 }}
             />
             <Copyright />
           </>
         ) : (
           <Avatar
             src=""
-            sx={{ width: 60, height: 60, mb: 2 }}
+            sx={{ width: 40, height: 40, mb: 2 }}
           />
         )}
       </Stack>

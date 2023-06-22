@@ -1,7 +1,7 @@
 import Dashboard from './Dashboard/Dashboard';
-import { Routes, Route, Switch, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import MainContent from './Dashboard/MainContent';
-import Employees from '../src/Employees/Employees'
+import ManageEmployees from './Employees/ManageEmployees';
 
 export default function App() {
   return (
@@ -9,7 +9,7 @@ export default function App() {
       <Routes>
         <Route path="/dashboard" element={<Dashboard />}>
           <Route element={<MainContent />}>
-            <Route path="employees" element={<Employees />} />
+            <Route path="employees" element={<ManageEmployees />} />
           </Route>
         </Route>
       </Routes>

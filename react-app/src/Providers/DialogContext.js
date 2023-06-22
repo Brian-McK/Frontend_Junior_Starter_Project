@@ -7,13 +7,10 @@ import {
   DialogTitle,
   Grid,
   List,
-  Typography,
   ListItem,
   ListItemText,
   Divider,
 } from "@mui/material";
-import FolderIcon from "@mui/icons-material/Folder";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import { createContext, useContext, useState } from "react";
 
 const DialogContext = createContext();
