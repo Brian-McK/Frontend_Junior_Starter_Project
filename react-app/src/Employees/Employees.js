@@ -15,7 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useDialog } from "../Providers/DialogContext";
-import { useGetAllEmployeesQuery } from "../Redux/Services/EmployeeSkillLevelService";
+import { useGetAllEmployeesQuery, useDeleteEmployeeMutation } from "../Redux/Services/EmployeeSkillLevelService";
 
 function CustomToolbar() {
     return (
@@ -33,13 +33,13 @@ export default function Employees() {
 
     const {
         data = [],
-        error,
         isLoading,
-        isError,
         isSuccess,
     } = useGetAllEmployeesQuery();
 
     console.log(data);
+
+    const [deleteEmployee, deleteEmployeeResult] = useDeleteEmployeeMutation();
 
     const handleViewEmployeeSkillLevelsOpenDialog = async (params) => {
         const confirmed = await showDialog({
@@ -58,12 +58,14 @@ export default function Employees() {
     const handleConfirmDeleteEmployee = async (params) => {
 
         const confirmed = await showDialog({
-            title: `Certificate ${params.row.certNumber}`,
-            message: `Are you sure you want to delete the certificate ${params.row.certNumber}?`,
+            title: `Employee: ${params.row.firstName} ${params.row.lastName}`,
+            message: `Are you sure you want to delete ${params.row.firstName}?`,
         });
         if (confirmed) {
-            //   deleteEmployee(params.id);
+            deleteEmployee(params.id);
         }
+
+        console.log(deleteEmployeeResult);
     };
 
     const dataGridDataCols = [

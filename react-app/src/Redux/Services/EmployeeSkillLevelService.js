@@ -12,7 +12,7 @@ export const employeeSkillLevelsApi = createApi({
                 url: `employees`,
                 method: "GET",
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzQzMTU4Mn0.JJRL-LeuXdh_t0PZQV3iZXpjmY_JgQfgbGRgrMtnA_M
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzQzNDU0Mn0.9a1mebaY15VBKH24Zmb6EhF5b2MXtTeHLLrB011OoUw
                     `,
                 },
             }),
@@ -42,6 +42,10 @@ export const employeeSkillLevelsApi = createApi({
             query: (id) => ({
                 url: `employees/${id}`,
                 method: "DELETE",
+                headers: {
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzQzNDU0Mn0.9a1mebaY15VBKH24Zmb6EhF5b2MXtTeHLLrB011OoUw
+                    `,
+                },
             }),
             invalidatesTags: ["Employee"],
         }),
