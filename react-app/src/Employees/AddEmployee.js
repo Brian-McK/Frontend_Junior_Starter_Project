@@ -18,6 +18,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
+import { useGetAllSkillLevelsQuery } from "../Redux/Services/EmployeeSkillLevelService";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -46,7 +47,7 @@ const skills = [
 function getStyles(name, employeesSkills, theme) {
   return {
     fontWeight:
-    employeesSkills.indexOf(name) === -1
+      employeesSkills.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
@@ -64,6 +65,16 @@ const validationSchemaAddEmployee = yup.object({
 
 export default function AddEmployee() {
   const theme = useTheme();
+
+  const {
+    data: skillLevels = [],
+    isLoading: isLoadingSkillLevels,
+    isSuccess: isSuccessSkillLevels,
+    isError: isErrorSkillLevels,
+    error: skillLevelsError,
+  } = useGetAllSkillLevelsQuery();
+
+  console.log(skillLevels);
 
   const [employeesSkills, setEmployeesSkills] = useState([]);
 
@@ -204,46 +215,6 @@ export default function AddEmployee() {
                   }
                 />
 
-                {/* <FormControl variant="filled" sx={{ minWidth: 120 }}>
-                  <TextField
-                    select
-                    variant="filled"
-                    id="selectSkills"
-                    name="selectSkills"
-                    label="Select Skills"
-                    value={formikAddEmployee.values.selectSkills}
-                    onChange={formikAddEmployee.handleChange}
-                    error={
-                      formikAddEmployee.touched.selectSkills &&
-                      Boolean(formikAddEmployee.errors.selectSkills)
-                    }
-                    helperText={
-                      formikAddEmployee.touched.selectSkills &&
-                      formikAddEmployee.errors.selectSkills
-                    }
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-
-                    {skills.map((item) => {
-                      return (
-                        <MenuItem key={item.id} value={item.id}>
-                          {`${item.title}`}
-                          <Typography variant="caption" sx={{ mx: 1 }}>
-                            {`Starts: ${dayjs(item.courseDate).format(
-                              "DD/MM/YYYY"
-                            )} `}
-                            {`Expires: ${dayjs(item.expiry).format(
-                              "DD/MM/YYYY"
-                            )} `}
-                          </Typography>
-                        </MenuItem>
-                      );
-                    })}
-                  </TextField>
-                </FormControl> */}
-
                 <FormControl sx={{ m: 1 }}>
                   <InputLabel id="selectSkillsLabel">Skills</InputLabel>
                   <Select
@@ -264,7 +235,7 @@ export default function AddEmployee() {
                     )}
                     MenuProps={MenuProps}
                   >
-                    {skills.map((name) => (
+                    {skillLevels.map(({ name }) => (
                       <MenuItem
                         key={name}
                         value={name}

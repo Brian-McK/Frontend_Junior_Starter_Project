@@ -53,6 +53,17 @@ export const employeeSkillLevelsApi = createApi({
             }),
             invalidatesTags: ["Employee"],
         }),
+        getAllSkillLevels: builder.query({
+            query: () => ({
+                url: `skillLevels`,
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzQ1NDI3MX0.WDbuAChmCpjbI77u7CJqJkEdPZpvR1Bm9xnRDfK3dpY
+                    `,
+                },
+            }),
+            providesTags: ["SkillLevel"],
+        }),
     }),
 });
 
@@ -61,5 +72,6 @@ export const {
     useGetEmployeeByIdQuery,
     useAddEmployeeMutation,
     useEditEmployeeMutation,
-    useDeleteEmployeeMutation
+    useDeleteEmployeeMutation,
+    useGetAllSkillLevelsQuery
 } = employeeSkillLevelsApi;
