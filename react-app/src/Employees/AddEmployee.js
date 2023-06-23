@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
-import { TextField, Button, Stack, Typography } from "@mui/material";
+import { TextField, Button, Stack } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -18,6 +18,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 import { useGetAllSkillLevelsQuery } from "../Redux/Services/EmployeeSkillLevelService";
 
 const ITEM_HEIGHT = 48;
@@ -30,19 +32,6 @@ const MenuProps = {
     },
   },
 };
-
-const skills = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
 
 function getStyles(name, employeesSkills, theme) {
   return {
@@ -88,7 +77,7 @@ export default function AddEmployee() {
     );
   };
 
-  const [addEmployee, { data, isError, isLoading, isSuccess }] =
+  const [addEmployee, { data, isError, isLoading, isSuccess, error }] =
     useAddEmployeeMutation();
 
   // reset form if successfull
@@ -102,7 +91,8 @@ export default function AddEmployee() {
       lastName: "",
       dob: today,
       email: "",
-      isActive: false,
+      skillLevels: [],
+      isActive: true,
     },
     validationSchema: validationSchemaAddEmployee,
     onSubmit: async (values) => {
@@ -111,10 +101,13 @@ export default function AddEmployee() {
         lastName: values.lastName,
         dob: `${values.dob.format("DD/MM/YYYY")}`,
         email: values.email,
+        skillLevels: employeesSkills,
         isActive: values.isActive,
       };
 
-      addEmployee(addEmployeePayload);
+      console.log(addEmployeePayload);
+
+      // addEmployee(addEmployeePayload);
     },
   });
   return (
@@ -159,15 +152,15 @@ export default function AddEmployee() {
                   type="text"
                   name="lastName"
                   label="Last Name"
-                  value={formikAddEmployee.values.firstName}
+                  value={formikAddEmployee.values.lastName}
                   onChange={formikAddEmployee.handleChange}
                   error={
-                    formikAddEmployee.touched.firstName &&
-                    Boolean(formikAddEmployee.errors.firstName)
+                    formikAddEmployee.touched.lastName &&
+                    Boolean(formikAddEmployee.errors.lastName)
                   }
                   helperText={
-                    formikAddEmployee.touched.firstName &&
-                    formikAddEmployee.errors.firstName
+                    formikAddEmployee.touched.lastName &&
+                    formikAddEmployee.errors.lastName
                   }
                 />
 
@@ -246,6 +239,19 @@ export default function AddEmployee() {
                     ))}
                   </Select>
                 </FormControl>
+
+                <FormControlLabel
+                  value={"start"}
+                  control={
+                    <Switch
+                      id="isActive"
+                      defaultChecked
+                      value={formikAddEmployee.values.isActive}
+                      onChange={formikAddEmployee.handleChange}
+                    />
+                  }
+                  label="Active"
+                />
 
                 <Button
                   color="primary"
