@@ -12,7 +12,7 @@ export const employeeSkillLevelsApi = createApi({
                 url: `employees`,
                 method: "GET",
                 headers: {
-                    Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzUxMzgwNH0.6EGkoEFoWopdla9stDhLkmbgNtsG-kptkQfRxOzuCwU
+                    Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNjg3NTM0NDA1fQ.Hni2sARh3lIF1ihS-2FAcCcwRiN-d3s-sJ4mrsJvMTE
                     `,
                 },
             }),
@@ -27,7 +27,7 @@ export const employeeSkillLevelsApi = createApi({
                 url: "employees",
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzUxMzgwNH0.6EGkoEFoWopdla9stDhLkmbgNtsG-kptkQfRxOzuCwU
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNjg3NTM0NDA1fQ.Hni2sARh3lIF1ihS-2FAcCcwRiN-d3s-sJ4mrsJvMTE
                     `,
                 },
                 body,
@@ -47,7 +47,7 @@ export const employeeSkillLevelsApi = createApi({
                 url: `employees/${id}`,
                 method: "DELETE",
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzUxMzgwNH0.6EGkoEFoWopdla9stDhLkmbgNtsG-kptkQfRxOzuCwU
+                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNjg3NTM0NDA1fQ.Hni2sARh3lIF1ihS-2FAcCcwRiN-d3s-sJ4mrsJvMTE
                     `,
                 },
             }),
@@ -58,7 +58,7 @@ export const employeeSkillLevelsApi = createApi({
                 url: `skillLevels`,
                 method: "GET",
                 headers: {
-                    Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbnRlc3QiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTY4NzUxMzgwNH0.6EGkoEFoWopdla9stDhLkmbgNtsG-kptkQfRxOzuCwU
+                    Authorization: `Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNjg3NTM0NDA1fQ.Hni2sARh3lIF1ihS-2FAcCcwRiN-d3s-sJ4mrsJvMTE
                     `,
                 },
             }),

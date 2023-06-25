@@ -46,9 +46,24 @@ export default function Employees() {
   const [deleteEmployee] = useDeleteEmployeeMutation();
 
   const handleViewEmployeeSkillLevelsOpenDialog = async (params) => {
-    console.log(params);
+    console.log("hey", params);
 
     const testList = [
+      {
+        primary: "Test",
+        secondary: "Test Secondary",
+      },
+      {
+        primary: "Test",
+        secondary: "Test Secondary",
+      },
+      {
+        primary: "Test",
+        secondary: "Test Secondary",
+      },
+    ];
+
+    const testList2 = [
       {
         primary: "Test",
         secondary: "Test Secondary",
