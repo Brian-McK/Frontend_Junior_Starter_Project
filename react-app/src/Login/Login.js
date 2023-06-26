@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import PeopleIcon from "@mui/icons-material/People";
-// import { useLoginEmployeeMutation } from "../../src/Redux/Services/EmployeeSkillLevelService";
+import { useAuthenticateUserMutation } from "../../src/Redux/Services/EmployeeSkillLevelService";
 
 const theme = createTheme();
 
@@ -22,7 +22,7 @@ const validationSchemaLoginUser = yup.object({
 export default function Login() {
   const navigate = useNavigate();
 
-  //   const [loginUser, result] = useLoginUserMutation();
+  const [authenticateUser, result] = useAuthenticateUserMutation();
 
   const formikLoginUser = useFormik({
     initialValues: {
@@ -31,15 +31,20 @@ export default function Login() {
     },
     validationSchema: validationSchemaLoginUser,
     onSubmit: async (values) => {
-      const loginUserPayload = {
+      const authenticateUserPayload = {
         username: values.username,
         password: values.password,
       };
 
-      //   loginUser(loginUserPayload)
-      //     .unwrap()
-      //     .then((result) => console.log("fulfilled", result))
-      //     .catch((error) => console.error("rejected", error));
+      console.log(authenticateUserPayload);
+
+      try {
+        var response = await authenticateUser(authenticateUserPayload);
+
+        console.log(response);
+      } catch (error) {
+        console.log(error.error);
+      }
     },
   });
 
@@ -57,7 +62,7 @@ export default function Login() {
             <Avatar sx={{ width: 230, height: 230, mb: 2 }}>
               <PeopleIcon sx={{ width: 180, height: 180 }} />
             </Avatar>
-            <Typography variant="h5">
+            <Typography variant="h5" textAlign={"center"}>
               Welcome To The Employee Manager Dashboard
             </Typography>
             <Typography variant="subtitle1">Please login below</Typography>
@@ -108,7 +113,7 @@ export default function Login() {
                 color="primary"
                 variant="contained"
                 fullWidth
-                // disabled={result.isLoading}
+                disabled={result.isLoading}
                 type="submit"
               >
                 Login
