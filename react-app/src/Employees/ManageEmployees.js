@@ -9,7 +9,7 @@ export default function ManageEmployees() {
     <>
       <Title>Manage Employees</Title>
       <Grid container spacing={3} justifyContent={"center"}>
-        <Grid item xs={12} sm={7} md={3}>
+        <Grid item xs={12} sm={12} md={3}>
           <AddEmployee />
         </Grid>
         <Grid item xs={12} sm={12} md={9}>

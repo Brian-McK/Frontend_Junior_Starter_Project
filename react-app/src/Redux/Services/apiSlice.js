@@ -87,11 +87,11 @@ import { setCredentials, logOut } from "./authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://localhost:7100/api/",
-  credentials: "same-origin",
+  credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
 
-    headers.append("Content-Type","application/json");
+    headers.append("Content-Type", "application/json");
 
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
@@ -102,13 +102,22 @@ const baseQuery = fetchBaseQuery({
 });
 
 const baseQueryWithReAuth = async (args, api, extraOptions) => {
+
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result?.error?.originalStatus === 403) {
+  console.log(result);
+
+  if (result?.error?.status === 401) {
     console.log("sending refresh token");
     // send the refresh token to get new access token
-    const refreshResult = await baseQuery("/refresh-token", api, extraOptions);
-    console.log(refreshResult);
+
+    const refreshResult = await baseQuery(
+      "Auth/refresh-token",
+      api,
+      extraOptions
+    );
+
+    console.log("refreshResult", refreshResult);
 
     if (refreshResult?.data) {
       const user = api.getState().auth.user;
