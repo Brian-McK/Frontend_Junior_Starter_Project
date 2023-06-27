@@ -6,8 +6,12 @@ import { ListItem } from "@mui/material";
 import PeopleIcon from "@mui/icons-material/People";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
+import { logOut } from "../Redux/Services/authSlice";
+import { useDispatch } from "react-redux";
 
 export default function ListItems() {
+  const dispatch = useDispatch();
+
   return (
     <>
       <ListItem
@@ -27,7 +31,7 @@ export default function ListItems() {
       <ListItem
         sx={{ paddingLeft: "6px" }}
         button={true}
-        onClick={() => console.log("will logout")}
+        onClick={() => dispatch(logOut())}
       >
         <ListItemButton>
           <ListItemIcon>

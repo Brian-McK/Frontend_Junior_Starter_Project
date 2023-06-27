@@ -14,11 +14,11 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useDialog } from "../Providers/DialogContext";
+import PsychologyIcon from "@mui/icons-material/Psychology";
 import {
   useGetAllEmployeesQuery,
   useDeleteEmployeeMutation,
-} from "../Redux/Services/EmployeeSkillLevelService";
-import PsychologyIcon from "@mui/icons-material/Psychology";
+} from "../Redux/Services/employeesApiSlice";
 
 function CustomToolbar() {
   return (
@@ -34,16 +34,16 @@ export default function Employees() {
   const showDialog = useDialog();
 
   const {
-    data = [],
+    data: employees,
     isLoading,
     isSuccess,
     isError,
-    error
+    error,
   } = useGetAllEmployeesQuery();
 
-  console.log(data);
+  console.log(employees);
 
-  const [deleteEmployee] = useDeleteEmployeeMutation();
+  const [deleteEmployee, result] = useDeleteEmployeeMutation();
 
   const handleViewEmployeeSkillLevelsOpenDialog = async (params) => {
     console.log("hey", params);
@@ -205,7 +205,7 @@ export default function Employees() {
               {isSuccess && (
                 <DataGrid
                   loading={isLoading}
-                  rows={data}
+                  rows={employees}
                   getRowId={(row) => row.id}
                   columns={dataGridDataCols}
                   autoHeight

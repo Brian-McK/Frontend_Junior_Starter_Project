@@ -24,8 +24,6 @@ const DialogProvider = ({ children }) => {
     displayOkButton: false,
   });
 
-  console.log(options);
-
   const [promiseInfo, setPromiseInfo] = useState();
 
   const showDialog = (options) => {

@@ -9,7 +9,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { useAddEmployeeMutation } from "../Redux/Services/EmployeeSkillLevelService";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -20,7 +19,8 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { useGetAllSkillLevelsQuery } from "../Redux/Services/EmployeeSkillLevelService";
+import { useGetAllSkillLevelsQuery } from "../Redux/Services/skillLevelsApiSlice";
+import { useAddEmployeeMutation } from "../Redux/Services/employeesApiSlice";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -63,8 +63,6 @@ export default function AddEmployee() {
     error: skillLevelsError,
   } = useGetAllSkillLevelsQuery();
 
-  console.log(skillLevels);
-
   const [employeesSkills, setEmployeesSkills] = useState([]);
 
   const handleChangeSkillLevelSelect = (event) => {
@@ -99,7 +97,7 @@ export default function AddEmployee() {
       const addEmployeePayload = {
         firstName: values.firstName,
         lastName: values.lastName,
-        dob: `${values.dob.format("DD/MM/YYYY")}`,
+        dob: values.dob,
         email: values.email,
         skillLevels: employeesSkills,
         isActive: values.isActive,
@@ -107,7 +105,12 @@ export default function AddEmployee() {
 
       console.log(addEmployeePayload);
 
-      // addEmployee(addEmployeePayload);
+      try {
+        var employeeData = await addEmployee(addEmployeePayload).unwrap();
+        console.log(employeeData);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
   return (
@@ -257,7 +260,7 @@ export default function AddEmployee() {
                   color="primary"
                   variant="contained"
                   fullWidth
-                  disabled={isLoading}
+                  // disabled={isLoading}
                   type="submit"
                 >
                   Submit

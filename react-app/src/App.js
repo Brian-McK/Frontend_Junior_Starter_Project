@@ -1,20 +1,24 @@
 import Dashboard from "./Dashboard/Dashboard";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
-import MainContent from "./Dashboard/MainContent";
+import { Routes, Route } from "react-router-dom";
 import ManageEmployees from "./Employees/ManageEmployees";
 import Login from "./Login/Login";
+import RequireAuth from "./Login/RequireAuth";
+import Layout from "../src/Common/Layout";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="login" element={<Login />} />
+      {/* protected routes */}
+      <Route element={<RequireAuth />}>
         <Route path="/dashboard" element={<Dashboard />}>
-          <Route element={<MainContent />}>
+          <Route element={<Layout />}>
             <Route path="employees" element={<ManageEmployees />} />
           </Route>
         </Route>
-      </Routes>
-    </BrowserRouter>
+      </Route>
+      {/* protected routes */}
+    </Routes>
   );
 }

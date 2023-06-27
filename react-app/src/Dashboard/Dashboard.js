@@ -15,9 +15,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ListItems from "./ListItems";
-import MainContent from "./MainContent";
-// import { useAuth } from "../providers/Auth.context";
 import DrawerInfo from "./DrawerInfo";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import {
+  selectCurrentUser,
+  selectCurrentToken,
+} from "../Redux/Services/authSlice";
+import { Link } from "react-router-dom";
+import Layout from "../Common/Layout";
 
 const drawerWidth = 260;
 
@@ -68,7 +73,10 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function DashboardContent() {
-//   const { user } = useAuth();
+  const user = useSelector(selectCurrentUser);
+  const token = useSelector(selectCurrentToken);
+
+  const welcomeMessage = user ? `Welcome ${user}!` : "Welcome!";
 
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
@@ -104,7 +112,7 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              {/* {user.name} */}
+              {welcomeMessage}
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -148,7 +156,7 @@ function DashboardContent() {
           <Toolbar />
 
           {/* Main Content */}
-          <MainContent />
+          <Layout />
           {/* Main Content */}
         </Box>
       </Box>

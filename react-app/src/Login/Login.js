@@ -1,16 +1,18 @@
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { TextField, Button, Stack } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import Checkbox from "@mui/material/Checkbox";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import PeopleIcon from "@mui/icons-material/People";
-import { useAuthenticateUserMutation } from "../../src/Redux/Services/EmployeeSkillLevelService";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../Redux/Services/authSlice";
+import { useLoginMutation } from "../Redux/Services/authApiSlice";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const theme = createTheme();
 
@@ -22,7 +24,9 @@ const validationSchemaLoginUser = yup.object({
 export default function Login() {
   const navigate = useNavigate();
 
-  const [authenticateUser, result] = useAuthenticateUserMutation();
+  const [login, { isLoading }] = useLoginMutation();
+
+  const dispatch = useDispatch();
 
   const formikLoginUser = useFormik({
     initialValues: {
@@ -31,17 +35,21 @@ export default function Login() {
     },
     validationSchema: validationSchemaLoginUser,
     onSubmit: async (values) => {
-      const authenticateUserPayload = {
+      const loginDetails = {
         username: values.username,
         password: values.password,
       };
 
-      console.log(authenticateUserPayload);
+      console.log(loginDetails);
 
       try {
-        var response = await authenticateUser(authenticateUserPayload);
+        var userData = await login(loginDetails).unwrap();
+        console.log(userData);
+        dispatch(setCredentials({ ...userData }));
 
-        console.log(response);
+        // empty the fields
+
+        navigate("/dashboard");
       } catch (error) {
         console.log(error.error);
       }
@@ -113,11 +121,13 @@ export default function Login() {
                 color="primary"
                 variant="contained"
                 fullWidth
-                disabled={result.isLoading}
+                disabled={isLoading}
                 type="submit"
               >
                 Login
               </Button>
+
+              {isLoading && <CircularProgress />}
             </Stack>
           </form>
         </Grid>
