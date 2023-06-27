@@ -40,11 +40,8 @@ export default function Login() {
         password: values.password,
       };
 
-      console.log(loginDetails);
-
       try {
         var userData = await login(loginDetails).unwrap();
-        console.log(userData);
         dispatch(setCredentials({ ...userData }));
 
         // empty the fields

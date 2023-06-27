@@ -41,12 +41,9 @@ export default function Employees() {
     error,
   } = useGetAllEmployeesQuery();
 
-  console.log(employees);
-
   const [deleteEmployee, result] = useDeleteEmployeeMutation();
 
   const handleViewEmployeeSkillLevelsOpenDialog = async (params) => {
-    console.log("hey", params);
 
     const testList = [
       {

@@ -103,11 +103,8 @@ export default function AddEmployee() {
         isActive: values.isActive,
       };
 
-      console.log(addEmployeePayload);
-
       try {
         var employeeData = await addEmployee(addEmployeePayload).unwrap();
-        console.log(employeeData);
       } catch (error) {
         console.log(error);
       }
