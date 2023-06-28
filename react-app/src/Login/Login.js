@@ -8,11 +8,10 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import PeopleIcon from "@mui/icons-material/People";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { setCredentials } from "../Redux/Services/authSlice";
 import { useLoginMutation } from "../Redux/Services/authApiSlice";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useDispatch } from "react-redux";
 
 const theme = createTheme();
 
@@ -24,18 +23,9 @@ const validationSchemaLoginUser = yup.object({
 export default function Login() {
   const navigate = useNavigate();
 
-  async function myAsyncFunction(userData) {
-    await dispatch(
-      setCredentials({
-        username: userData.username,
-        jwtToken: userData.jwtToken,
-      })
-    );
-  }
+  const dispatch = useDispatch();
 
   const [login, { isLoading }] = useLoginMutation();
-
-  const dispatch = useDispatch();
 
   const formikLoginUser = useFormik({
     initialValues: {
@@ -49,28 +39,46 @@ export default function Login() {
         password: values.password,
       };
 
-      try {
-        await login(loginDetails)
-          .unwrap()
-          .then((userData) => {
-            console.log(1);
+      await login(loginDetails)
+        .unwrap()
+        .then((result) => {
+          console.log("fulfilled", result);
 
-            dispatch(
-              setCredentials({
-                user: userData.username,
-                token: userData.jwtToken,
-              })
-            );
-          })
-          .finally(() => {
-            console.log(2);
-            navigate("/dashboard");
-          });
+          dispatch(setCredentials(result));
+        })
+        .finally(() => {
+          navigate("/dashboard");
+        })
+        .catch((error) => console.error("rejected", error));
 
-        // empty the fields
-      } catch (error) {
-        console.log(error.error);
-      }
+      // await login(loginDetails).unwrap().then();
+      // dispatch(setCredentials(user));
+      // navigate("/");
+
+      // console.log(loginDetails);
+
+      // try {
+      //   await login(loginDetails)
+      //     .unwrap()
+      //     .then((userData) => {
+      //       console.log(1);
+
+      //       dispatch(
+      //         setCredentials({
+      //           user: userData.username,
+      //           token: userData.jwtToken,
+      //         })
+      //       );
+      //     })
+      //     .finally(() => {
+      //       console.log(2);
+      //       navigate("/dashboard");
+      //     });
+
+      // empty the fields
+      // } catch (error) {
+      //   console.log(error.error);
+      // }
     },
   });
 

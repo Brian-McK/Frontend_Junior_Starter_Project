@@ -91,19 +91,15 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
 
-    console.log(getState())
+    console.log(getState());
 
     console.log("baseQuery called");
 
     headers.append("Content-Type", "application/json");
 
-    console.log("token",token)
-
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
-
-    console.log("header get: ", headers.get("Authorization"));
 
     return headers;
   },
@@ -112,7 +108,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReAuth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  console.log("baseQueryWithReAuth")
+  console.log("baseQueryWithReAuth");
 
   if (result?.error?.status === 401) {
     console.log("sending refresh token");
@@ -135,14 +131,13 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
       console.log(user);
       // store the new token
-      api.dispatch(setCredentials({ ...refreshResult.data.jwtToken, user }));
+      api.dispatch(setCredentials({ ...refreshResult.data }));
       // retry the original query with the new access token
       result = await baseQuery(args, api, extraOptions);
 
       console.log("result", result);
-    // } else {
-    //   api.dispatch(logOut());
-    // }
+    } else {
+      api.dispatch(logOut());
     }
   }
 
