@@ -24,6 +24,15 @@ const validationSchemaLoginUser = yup.object({
 export default function Login() {
   const navigate = useNavigate();
 
+  async function myAsyncFunction(userData) {
+    await dispatch(
+      setCredentials({
+        username: userData.username,
+        jwtToken: userData.jwtToken,
+      })
+    );
+  }
+
   const [login, { isLoading }] = useLoginMutation();
 
   const dispatch = useDispatch();
@@ -41,12 +50,24 @@ export default function Login() {
       };
 
       try {
-        var userData = await login(loginDetails).unwrap();
-        dispatch(setCredentials({ ...userData }));
+        await login(loginDetails)
+          .unwrap()
+          .then((userData) => {
+            console.log(1);
+
+            dispatch(
+              setCredentials({
+                user: userData.username,
+                token: userData.jwtToken,
+              })
+            );
+          })
+          .finally(() => {
+            console.log(2);
+            navigate("/dashboard");
+          });
 
         // empty the fields
-
-        navigate("/dashboard");
       } catch (error) {
         console.log(error.error);
       }
