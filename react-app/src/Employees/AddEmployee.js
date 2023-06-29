@@ -69,9 +69,8 @@ export default function AddEmployee() {
     const {
       target: { value },
     } = event;
-    setEmployeesSkills(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
+
+    setEmployeesSkills([...value]
     );
   };
 
@@ -80,6 +79,7 @@ export default function AddEmployee() {
 
   // reset form if successfull
   React.useEffect(() => {
+    console.log(isSuccess)
     formikAddEmployee.resetForm();
   }, [isSuccess]);
 
@@ -99,12 +99,17 @@ export default function AddEmployee() {
         lastName: values.lastName,
         dob: values.dob,
         email: values.email,
-        skillLevels: employeesSkills,
+        skillLevelIds: employeesSkills.map(obj => obj.id),
         isActive: values.isActive,
       };
 
+      console.log(addEmployeePayload);
+
       try {
-        var employeeData = await addEmployee(addEmployeePayload).unwrap();
+        var employeeData = await addEmployee(addEmployeePayload).unwrap()
+        .then((result) => {
+          console.log(result);
+        });
       } catch (error) {
         console.log(error);
       }
@@ -222,19 +227,19 @@ export default function AddEmployee() {
                     renderValue={(selected) => (
                       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
                         {selected.map((value) => (
-                          <Chip key={value} label={value} />
+                          <Chip key={value.id} label={value.name} />
                         ))}
                       </Box>
                     )}
                     MenuProps={MenuProps}
                   >
-                    {skillLevels.map(({ name }) => (
+                    {skillLevels.map((item) => (
                       <MenuItem
-                        key={name}
-                        value={name}
-                        style={getStyles(name, employeesSkills, theme)}
+                        key={item.id}
+                        value={item}
+                        style={getStyles(item.name, employeesSkills, theme)}
                       >
-                        {name}
+                        {item.name}
                       </MenuItem>
                     ))}
                   </Select>

@@ -10,9 +10,10 @@ export const employeesApiSlice = apiSlice
       }),
       addEmployee: builder.mutation({
         query: (body) => ({
-          url: `employees`,
+          url: `/employees`,
           method: "POST",
           body,
+          responseHandler: "text",
         }),
         invalidatesTags: ["Employees"],
       }),
