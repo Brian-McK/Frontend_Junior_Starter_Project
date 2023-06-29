@@ -1,25 +1,30 @@
 import { apiSlice } from "./apiSlice";
 
-export const employeesApiSlice = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    getAllEmployees: builder.query({
-      query: () => "/employees",
-    }),
-    addEmployee: builder.mutation({
-      query: (body) => ({
-        url: `employees`,
-        method: "POST",
-        body,
+export const employeesApiSlice = apiSlice
+  .enhanceEndpoints({ addTagTypes: ["Employees"] })
+  .injectEndpoints({
+    endpoints: (builder) => ({
+      getAllEmployees: builder.query({
+        query: () => "/employees",
+        providesTags: ["Employees"],
+      }),
+      addEmployee: builder.mutation({
+        query: (body) => ({
+          url: `employees`,
+          method: "POST",
+          body,
+        }),
+        invalidatesTags: ["Employees"],
+      }),
+      deleteEmployee: builder.mutation({
+        query: (id) => ({
+          url: `employees/${id}`,
+          method: "DELETE",
+        }),
+        invalidatesTags: ["Employees"],
       }),
     }),
-    deleteEmployee: builder.mutation({
-      query: (id) => ({
-        url: `employees/${id}`,
-        method: "DELETE",
-      }),
-    }),
-  }),
-});
+  });
 
 export const {
   useGetAllEmployeesQuery,
