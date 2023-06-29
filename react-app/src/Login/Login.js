@@ -42,43 +42,12 @@ export default function Login() {
       await login(loginDetails)
         .unwrap()
         .then((result) => {
-          console.log("fulfilled", result);
-
           dispatch(setCredentials(result));
         })
         .finally(() => {
-          navigate("/dashboard");
+          navigate("/dashboard/employees");
         })
         .catch((error) => console.error("rejected", error));
-
-      // await login(loginDetails).unwrap().then();
-      // dispatch(setCredentials(user));
-      // navigate("/");
-
-      // console.log(loginDetails);
-
-      // try {
-      //   await login(loginDetails)
-      //     .unwrap()
-      //     .then((userData) => {
-      //       console.log(1);
-
-      //       dispatch(
-      //         setCredentials({
-      //           user: userData.username,
-      //           token: userData.jwtToken,
-      //         })
-      //       );
-      //     })
-      //     .finally(() => {
-      //       console.log(2);
-      //       navigate("/dashboard");
-      //     });
-
-      // empty the fields
-      // } catch (error) {
-      //   console.log(error.error);
-      // }
     },
   });
 

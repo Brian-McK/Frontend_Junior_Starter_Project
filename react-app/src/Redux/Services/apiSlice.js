@@ -91,10 +91,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
 
-    console.log(getState());
-
-    console.log("baseQuery called");
-
+    // add to localStorage too?
     headers.append("Content-Type", "application/json");
 
     if (token) {
@@ -107,8 +104,6 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReAuth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-
-  console.log("baseQueryWithReAuth");
 
   if (result?.error?.status === 401) {
     console.log("sending refresh token");
@@ -124,18 +119,12 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       extraOptions
     );
 
-    console.log("refreshResult", refreshResult.data);
-
     if (refreshResult?.data) {
       const user = api.getState().auth.user;
-
-      console.log(user);
       // store the new token
       api.dispatch(setCredentials({ ...refreshResult.data }));
       // retry the original query with the new access token
       result = await baseQuery(args, api, extraOptions);
-
-      console.log("result", result);
     } else {
       api.dispatch(logOut());
     }
@@ -144,6 +133,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
   return result;
 };
 
+// inject endpoints here (code-splitting)
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReAuth,
   endpoints: (builder) => ({}),
