@@ -36,6 +36,8 @@ export default function Employees() {
 
   const [open, setOpen] = React.useState(false);
 
+  const [employeeData, setEmployeeData] = React.useState(false);
+
   const {
     data: employees,
     isLoading,
@@ -67,10 +69,9 @@ export default function Employees() {
   };
 
   const handleEditEmployeeOpenDialog = async (params) => {
+    setEmployeeData(params);
+
     setOpen(true);
-
-
-    
 
     // const confirmed = await showDialog({
     //   title: `${"Edit Employee Details"}`,
@@ -215,7 +216,11 @@ export default function Employees() {
           </Paper>
         </Grid>
       </Grid>
-      <EditFormDialog open={open} setOpen={setOpen} />
+      <EditFormDialog
+        open={open}
+        setOpen={setOpen}
+        employeeData={employeeData}
+      />
     </>
   );
 }

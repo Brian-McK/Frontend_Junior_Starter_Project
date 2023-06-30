@@ -7,20 +7,25 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function EditFormDialog({open, setOpen, employeeName}) {
+export default function EditFormDialog({ open, setOpen, employeeData }) {
+  const employee = employeeData.row;
 
   const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleUpdate = () => {
     setOpen(false);
   };
 
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Subscribe</DialogTitle>
+        <DialogTitle>
+          Edit Employee Details For: {`${employee.firstName}`}{" "}
+          {`${employee.lastName}`}
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-           Update the details for employee: `${employeeName}`
-          </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -33,7 +38,7 @@ export default function EditFormDialog({open, setOpen, employeeName}) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Update</Button>
+          <Button onClick={handleUpdate}>Update</Button>
         </DialogActions>
       </Dialog>
     </div>
