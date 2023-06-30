@@ -17,6 +17,14 @@ export const employeesApiSlice = apiSlice
         }),
         invalidatesTags: ["Employees"],
       }),
+      editEmployee: builder.mutation({
+        query: ({ id, body }) => ({
+          url: `/employees/${id}`,
+          method: "PUT",
+          body,
+        }),
+        invalidatesTags: ["Employees"],
+      }),
       deleteEmployee: builder.mutation({
         query: (id) => ({
           url: `employees/${id}`,
@@ -31,4 +39,5 @@ export const {
   useGetAllEmployeesQuery,
   useDeleteEmployeeMutation,
   useAddEmployeeMutation,
+  useEditEmployeeMutation
 } = employeesApiSlice;

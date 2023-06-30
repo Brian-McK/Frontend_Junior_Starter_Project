@@ -19,6 +19,7 @@ import {
   useGetAllEmployeesQuery,
   useDeleteEmployeeMutation,
 } from "../Redux/Services/employeesApiSlice";
+import EditFormDialog from "../Common/EditFormDialog";
 
 function CustomToolbar() {
   return (
@@ -32,6 +33,8 @@ function CustomToolbar() {
 
 export default function Employees() {
   const showDialog = useDialog();
+
+  const [open, setOpen] = React.useState(false);
 
   const {
     data: employees,
@@ -52,7 +55,7 @@ export default function Employees() {
       return {
         id: skillLevel.id,
         primary: skillLevel.name,
-        secondary: skillLevel.description
+        secondary: skillLevel.description,
       };
     });
 
@@ -64,10 +67,15 @@ export default function Employees() {
   };
 
   const handleEditEmployeeOpenDialog = async (params) => {
-    const confirmed = await showDialog({
-      title: `${"Edit Employee Details"}`,
-      message: `${"Message goes here"}`,
-    });
+    setOpen(true);
+
+
+    
+
+    // const confirmed = await showDialog({
+    //   title: `${"Edit Employee Details"}`,
+    //   message: `${"Message goes here"}`,
+    // });
   };
 
   const handleConfirmDeleteEmployee = async (params) => {
@@ -207,6 +215,7 @@ export default function Employees() {
           </Paper>
         </Grid>
       </Grid>
+      <EditFormDialog open={open} setOpen={setOpen} />
     </>
   );
 }
