@@ -46,41 +46,20 @@ export default function Employees() {
   const [deleteEmployee, result] = useDeleteEmployeeMutation();
 
   const handleViewEmployeeSkillLevelsOpenDialog = async (params) => {
+    console.log(params.row.skillLevels);
 
-    const testList = [
-      {
-        primary: "Test",
-        secondary: "Test Secondary",
-      },
-      {
-        primary: "Test",
-        secondary: "Test Secondary",
-      },
-      {
-        primary: "Test",
-        secondary: "Test Secondary",
-      },
-    ];
-
-    const testList2 = [
-      {
-        primary: "Test",
-        secondary: "Test Secondary",
-      },
-      {
-        primary: "Test",
-        secondary: "Test Secondary",
-      },
-      {
-        primary: "Test",
-        secondary: "Test Secondary",
-      },
-    ];
+    const mappedSkillLevels = params.row.skillLevels.map((skillLevel) => {
+      return {
+        id: skillLevel.id,
+        primary: skillLevel.name,
+        secondary: skillLevel.description
+      };
+    });
 
     await showDialog({
       title: `Employee Skills: ${params.row.firstName} ${params.row.lastName}`,
       displayOkButton: true,
-      displayList: testList,
+      displayList: mappedSkillLevels,
     });
   };
 
