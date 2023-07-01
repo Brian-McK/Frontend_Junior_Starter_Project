@@ -20,6 +20,7 @@ import Chip from "@mui/material/Chip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { useEditEmployeeMutation } from "../Redux/Services/employeesApiSlice";
+import { isEqual, _ } from "lodash";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -33,11 +34,19 @@ const MenuProps = {
 };
 
 function getStyles(item, employeeSkills, theme) {
+  var fontWeight;
+  var hover;
+
+  
+
+  if (employeeSkills.some((skill) => isEqual(skill, item))) {
+    fontWeight = theme.typography.fontWeightMedium;
+  } else {
+    fontWeight = theme.typography.fontWeightRegular;
+  }
+
   return {
-    fontWeight:
-      employeeSkills.indexOf(item) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
+    fontWeight: fontWeight,
   };
 }
 
@@ -54,20 +63,20 @@ const validationSchemaEditEmployee = yup.object({
 export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
   const theme = useTheme();
 
-  const [employeesSkills, setEmployeesSkills] = useState([]);
+  const [employeesSkills, setEmployeesSkills] = useState(
+    employeeDetails.skillLevels
+  );
 
-  React.useEffect(() => {
-    setEmployeesSkills(employeeDetails.skillLevels);
-  }, []);
-
-  console.log(employeesSkills);
-
-  const handleChangeSkillLevelSelect = (event) => {
-    const {
-      target: { value },
-    } = event;
-
-    setEmployeesSkills([...value]);
+  const handleMenuItemSelect = (item) => {
+    if (employeesSkills.some((skill) => isEqual(skill, item))) {
+      setEmployeesSkills(
+        employeesSkills.filter((value) => {
+          return !isEqual(value, item);
+        })
+      );
+    } else {
+      setEmployeesSkills([...employeesSkills, item]);
+    }
   };
 
   const [editEmployee, { data, isError, isLoading, isSuccess, error }] =
@@ -77,6 +86,15 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
   React.useEffect(() => {
     formikEditEmployee.resetForm();
   }, [isSuccess]);
+
+  const menuItemStyle = {
+    "&.Mui-selected": {
+      color: "green",
+    },
+    "&:hover": {
+      backgroundColor: "lightblue",
+    },
+  };
 
   const formikEditEmployee = useFormik({
     initialValues: {
@@ -97,8 +115,6 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
         skillLevelIds: employeesSkills.map((obj) => obj.id),
         isActive: values.isActive,
       };
-
-      console.log(editEmployeePayload);
 
       try {
         var employeeData = await editEmployee(editEmployeePayload)
@@ -216,7 +232,6 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
                     id="selectSkills"
                     multiple
                     value={employeesSkills}
-                    onChange={handleChangeSkillLevelSelect}
                     input={
                       <OutlinedInput id="select-multiple-chip" label="Chip" />
                     }
@@ -233,7 +248,8 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
                       <MenuItem
                         key={item.id}
                         value={item}
-                        style={getStyles(item.name, employeesSkills, theme)}
+                        onClick={() => handleMenuItemSelect(item)}
+                        style={getStyles(item, employeesSkills, theme)}
                       >
                         {item.name}
                       </MenuItem>
