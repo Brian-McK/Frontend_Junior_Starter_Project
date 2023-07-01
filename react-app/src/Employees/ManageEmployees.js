@@ -3,19 +3,30 @@ import { Grid } from "@mui/material";
 import Employees from "./Employees";
 import Title from "../Common/Title";
 import AddEmployee from "./AddEmployee";
+import { useGetAllSkillLevelsQuery } from "../Redux/Services/skillLevelsApiSlice";
 
 export default function ManageEmployees() {
+  const {
+    data: skillLevels = [],
+    isLoading: isLoadingSkillLevels,
+    isSuccess: isSuccessSkillLevels,
+    isError: isErrorSkillLevels,
+    error: skillLevelsError,
+  } = useGetAllSkillLevelsQuery();
+
   return (
     <>
       <Title>Manage Employees</Title>
-      <Grid container spacing={3} justifyContent={"center"}>
-        <Grid item xs={12} sm={12} md={3}>
-          <AddEmployee />
+      {isSuccessSkillLevels && (
+        <Grid container spacing={3} justifyContent={"center"}>
+          <Grid item xs={12} sm={12} md={3}>
+            <AddEmployee skillLevelsToSelect={skillLevels} />
+          </Grid>
+          <Grid item xs={12} sm={12} md={9}>
+            <Employees skillLevelsToSelect={skillLevels} />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={9}>
-          <Employees />
-        </Grid>
-      </Grid>
+      )}
     </>
   );
 }

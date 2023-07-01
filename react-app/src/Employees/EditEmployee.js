@@ -32,10 +32,10 @@ const MenuProps = {
   },
 };
 
-function getStyles(name, employeesSkills, theme) {
+function getStyles(item, employeeSkills, theme) {
   return {
     fontWeight:
-      employeesSkills.indexOf(name) === -1
+      employeeSkills.indexOf(item) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
@@ -51,10 +51,16 @@ const validationSchemaEditEmployee = yup.object({
   isActive: yup.boolean().required(),
 });
 
-export default function EditEmployee({ employeeDetails }) {
+export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
   const theme = useTheme();
 
   const [employeesSkills, setEmployeesSkills] = useState([]);
+
+  React.useEffect(() => {
+    setEmployeesSkills(employeeDetails.skillLevels);
+  }, []);
+
+  console.log(employeesSkills);
 
   const handleChangeSkillLevelSelect = (event) => {
     const {
@@ -69,7 +75,6 @@ export default function EditEmployee({ employeeDetails }) {
 
   // reset form if successfull
   React.useEffect(() => {
-    console.log(isSuccess);
     formikEditEmployee.resetForm();
   }, [isSuccess]);
 
@@ -116,7 +121,7 @@ export default function EditEmployee({ employeeDetails }) {
             flexDirection: "column",
           }}
         >
-          <h4>EdiT Employee</h4>
+          <h4>Edit Employee</h4>
           {/* Form Start */}
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -224,7 +229,7 @@ export default function EditEmployee({ employeeDetails }) {
                     )}
                     MenuProps={MenuProps}
                   >
-                    {skillLevels.map((item) => (
+                    {skillLevelsToSelect.map((item) => (
                       <MenuItem
                         key={item.id}
                         value={item}

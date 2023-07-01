@@ -19,7 +19,7 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { useGetAllSkillLevelsQuery } from "../Redux/Services/skillLevelsApiSlice";
+
 import { useAddEmployeeMutation } from "../Redux/Services/employeesApiSlice";
 
 const ITEM_HEIGHT = 48;
@@ -33,10 +33,10 @@ const MenuProps = {
   },
 };
 
-function getStyles(name, employeesSkills, theme) {
+function getStyles(item, employeesSkills, theme) {
   return {
     fontWeight:
-      employeesSkills.indexOf(name) === -1
+      employeesSkills.indexOf(item) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
@@ -52,16 +52,8 @@ const validationSchemaAddEmployee = yup.object({
   isActive: yup.boolean().required(),
 });
 
-export default function AddEmployee() {
+export default function AddEmployee({ skillLevelsToSelect }) {
   const theme = useTheme();
-
-  const {
-    data: skillLevels = [],
-    isLoading: isLoadingSkillLevels,
-    isSuccess: isSuccessSkillLevels,
-    isError: isErrorSkillLevels,
-    error: skillLevelsError,
-  } = useGetAllSkillLevelsQuery();
 
   const [employeesSkills, setEmployeesSkills] = useState([]);
 
@@ -70,8 +62,7 @@ export default function AddEmployee() {
       target: { value },
     } = event;
 
-    setEmployeesSkills([...value]
-    );
+    setEmployeesSkills([...value]);
   };
 
   const [addEmployee, { data, isError, isLoading, isSuccess, error }] =
@@ -79,7 +70,6 @@ export default function AddEmployee() {
 
   // reset form if successfull
   React.useEffect(() => {
-    console.log(isSuccess)
     formikAddEmployee.resetForm();
   }, [isSuccess]);
 
@@ -99,17 +89,18 @@ export default function AddEmployee() {
         lastName: values.lastName,
         dob: values.dob,
         email: values.email,
-        skillLevelIds: employeesSkills.map(obj => obj.id),
+        skillLevelIds: employeesSkills.map((obj) => obj.id),
         isActive: values.isActive,
       };
 
       console.log(addEmployeePayload);
 
       try {
-        var employeeData = await addEmployee(addEmployeePayload).unwrap()
-        .then((result) => {
-          console.log(result);
-        });
+        var employeeData = await addEmployee(addEmployeePayload)
+          .unwrap()
+          .then((result) => {
+            console.log(result);
+          });
       } catch (error) {
         console.log(error);
       }
@@ -233,11 +224,11 @@ export default function AddEmployee() {
                     )}
                     MenuProps={MenuProps}
                   >
-                    {skillLevels.map((item) => (
+                    {skillLevelsToSelect.map((item) => (
                       <MenuItem
                         key={item.id}
                         value={item}
-                        style={getStyles(item.name, employeesSkills, theme)}
+                        style={getStyles(item, employeesSkills, theme)}
                       >
                         {item.name}
                       </MenuItem>

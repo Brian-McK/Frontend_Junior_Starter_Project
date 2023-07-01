@@ -6,9 +6,16 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import EditEmployee from "../Employees/EditEmployee";
 
-export default function EditFormDialog({ open, setOpen, employeeData }) {
-  const employee = employeeData.row;
+export default function EditFormDialog({
+  open,
+  setOpen,
+  employeeData,
+  skillLevelsToSelect,
+}) {
+  const employeeBeforeEdit = employeeData;
+
 
   const handleClose = () => {
     setOpen(false);
@@ -22,18 +29,13 @@ export default function EditFormDialog({ open, setOpen, employeeData }) {
     <div>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          Edit Employee Details For: {`${employee.firstName}`}{" "}
-          {`${employee.lastName}`}
+          Edit Employee Details For: {`${employeeBeforeEdit.firstName}`}{" "}
+          {`${employeeBeforeEdit.lastName}`}
         </DialogTitle>
         <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
+          <EditEmployee
+            employeeDetails={employeeBeforeEdit}
+            skillLevelsToSelect={skillLevelsToSelect}
           />
         </DialogContent>
         <DialogActions>

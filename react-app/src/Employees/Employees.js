@@ -31,7 +31,7 @@ function CustomToolbar() {
   );
 }
 
-export default function Employees() {
+export default function Employees({ skillLevelsToSelect }) {
   const showDialog = useDialog();
 
   const [open, setOpen] = React.useState(false);
@@ -46,13 +46,9 @@ export default function Employees() {
     error,
   } = useGetAllEmployeesQuery();
 
-  console.log(employees);
-
   const [deleteEmployee, result] = useDeleteEmployeeMutation();
 
   const handleViewEmployeeSkillLevelsOpenDialog = async (params) => {
-    console.log(params.row.skillLevels);
-
     const mappedSkillLevels = params.row.skillLevels.map((skillLevel) => {
       return {
         id: skillLevel.id,
@@ -69,7 +65,9 @@ export default function Employees() {
   };
 
   const handleEditEmployeeOpenDialog = async (params) => {
-    setEmployeeData(params);
+    const userData = params.row;
+
+    setEmployeeData(userData);
 
     setOpen(true);
 
@@ -216,11 +214,14 @@ export default function Employees() {
           </Paper>
         </Grid>
       </Grid>
-      <EditFormDialog
-        open={open}
-        setOpen={setOpen}
-        employeeData={employeeData}
-      />
+      {isSuccess && (
+        <EditFormDialog
+          open={open}
+          setOpen={setOpen}
+          employeeData={employeeData}
+          skillLevelsToSelect={skillLevelsToSelect}
+        />
+      )}
     </>
   );
 }
