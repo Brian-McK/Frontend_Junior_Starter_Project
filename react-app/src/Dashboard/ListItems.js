@@ -9,9 +9,16 @@ import { Link } from "react-router-dom";
 import { logOut } from "../Redux/Services/authSlice";
 import { useDispatch } from "react-redux";
 import { useLogoutMutation } from "../Redux/Services/authApiSlice";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { selectCurrentUser } from "../Redux/Services/authSlice";
+import { SnackbarContext } from "../Providers/SnackbarContext";
 
 export default function ListItems() {
   const dispatch = useDispatch();
+
+  const user = useSelector(selectCurrentUser);
+
+  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [logout, { isLoading }] = useLogoutMutation();
 
@@ -20,8 +27,12 @@ export default function ListItems() {
       .unwrap()
       .then((result) => {
         dispatch(logOut());
+
+        showSnackbar(`Bye Bye ${user}!`);
       })
-      .catch((error) => console.error("rejected", error));
+      .catch((error) => {
+        showSnackbar(`${error.data}`);
+      });
   };
 
   return (
