@@ -119,7 +119,7 @@ export default function EditEmployee({
       };
 
       try {
-        var employeeData = await editEmployee({
+        await editEmployee({
           id: employeeDetails.id,
           body: editEmployeePayload,
         })

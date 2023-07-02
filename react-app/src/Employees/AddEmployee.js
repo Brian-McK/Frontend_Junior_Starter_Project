@@ -71,6 +71,7 @@ export default function AddEmployee({ skillLevelsToSelect }) {
   // reset form if successfull
   React.useEffect(() => {
     formikAddEmployee.resetForm();
+    setEmployeesSkills([]);
   }, [isSuccess]);
 
   const formikAddEmployee = useFormik({
@@ -93,14 +94,10 @@ export default function AddEmployee({ skillLevelsToSelect }) {
         isActive: values.isActive,
       };
 
-      console.log(addEmployeePayload);
-
       try {
-        var employeeData = await addEmployee(addEmployeePayload)
+        await addEmployee(addEmployeePayload)
           .unwrap()
-          .then((result) => {
-            console.log(result);
-          });
+          .then((result) => {});
       } catch (error) {
         console.log(error);
       }
@@ -123,6 +120,7 @@ export default function AddEmployee({ skillLevelsToSelect }) {
             <form onSubmit={formikAddEmployee.handleSubmit}>
               <Stack spacing={2}>
                 <TextField
+                  disabled={isLoading}
                   variant="filled"
                   fullWidth
                   id="firstName"
@@ -142,6 +140,7 @@ export default function AddEmployee({ skillLevelsToSelect }) {
                 />
 
                 <TextField
+                  disabled={isLoading}
                   variant="filled"
                   fullWidth
                   id="lastName"
@@ -161,6 +160,7 @@ export default function AddEmployee({ skillLevelsToSelect }) {
                 />
 
                 <DatePicker
+                  disabled={isLoading}
                   inputFormat="DD/MM/YYYY"
                   label="Date of birth"
                   views={["year", "month", "day"]}
@@ -186,6 +186,7 @@ export default function AddEmployee({ skillLevelsToSelect }) {
                 />
 
                 <TextField
+                  disabled={isLoading}
                   variant="filled"
                   fullWidth
                   id="email"
@@ -207,6 +208,7 @@ export default function AddEmployee({ skillLevelsToSelect }) {
                 <FormControl sx={{ m: 1 }}>
                   <InputLabel id="selectSkillsLabel">Skills</InputLabel>
                   <Select
+                    disabled={isLoading}
                     labelId="selectSkillsLabel"
                     id="selectSkills"
                     multiple
@@ -226,6 +228,7 @@ export default function AddEmployee({ skillLevelsToSelect }) {
                   >
                     {skillLevelsToSelect.map((item) => (
                       <MenuItem
+                        disabled={isLoading}
                         key={item.id}
                         value={item}
                         style={getStyles(item, employeesSkills, theme)}
@@ -240,6 +243,7 @@ export default function AddEmployee({ skillLevelsToSelect }) {
                   value={"start"}
                   control={
                     <Switch
+                      disabled={isLoading}
                       id="isActive"
                       defaultChecked
                       value={formikAddEmployee.values.isActive}
@@ -253,7 +257,7 @@ export default function AddEmployee({ skillLevelsToSelect }) {
                   color="primary"
                   variant="contained"
                   fullWidth
-                  // disabled={isLoading}
+                  disabled={isLoading}
                   type="submit"
                 >
                   Submit

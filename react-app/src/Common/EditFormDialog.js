@@ -21,10 +21,6 @@ export default function EditFormDialog({
     setOpen(false);
   };
 
-  const handleUpdate = () => {
-    setOpen(false);
-  };
-
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
@@ -40,8 +36,7 @@ export default function EditFormDialog({
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleUpdate}>Update</Button>
+          <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
     </div>
