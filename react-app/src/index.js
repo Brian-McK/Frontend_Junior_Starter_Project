@@ -8,19 +8,22 @@ import { store } from "../src/Redux/Services/Store";
 import { Provider } from "react-redux";
 import DialogProvider from "./Providers/DialogContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SnackbarProvider } from "./Providers/SnackbarContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <DialogProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/*" element={<App />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </DialogProvider>
+    <SnackbarProvider>
+      <DialogProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/*" element={<App />} />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </DialogProvider>
+    </SnackbarProvider>
   </Provider>
 );

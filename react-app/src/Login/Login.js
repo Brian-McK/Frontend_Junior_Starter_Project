@@ -12,6 +12,7 @@ import { setCredentials } from "../Redux/Services/authSlice";
 import { useLoginMutation } from "../Redux/Services/authApiSlice";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch } from "react-redux";
+import { SnackbarContext } from "../Providers/SnackbarContext";
 
 const theme = createTheme();
 
@@ -24,6 +25,8 @@ export default function Login() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [login, { isLoading }] = useLoginMutation();
 
@@ -46,8 +49,12 @@ export default function Login() {
         })
         .finally(() => {
           navigate("/dashboard/employees");
+
+          showSnackbar(`Welcome ${loginDetails.username}!`);
         })
-        .catch((error) => console.error("rejected", error));
+        .catch((error) => {
+          showSnackbar(`${error.data}`);
+        });
     },
   });
 
