@@ -21,7 +21,7 @@ export const employeesApiSlice = apiSlice
         query: ({ id, body }) => ({
           url: `/employees/${id}`,
           method: "PUT",
-          body,
+          body: body,
         }),
         invalidatesTags: ["Employees"],
       }),
@@ -39,5 +39,5 @@ export const {
   useGetAllEmployeesQuery,
   useDeleteEmployeeMutation,
   useAddEmployeeMutation,
-  useEditEmployeeMutation
+  useEditEmployeeMutation,
 } = employeesApiSlice;

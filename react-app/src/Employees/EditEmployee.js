@@ -37,8 +37,6 @@ function getStyles(item, employeeSkills, theme) {
   var fontWeight;
   var hover;
 
-  
-
   if (employeeSkills.some((skill) => isEqual(skill, item))) {
     fontWeight = theme.typography.fontWeightMedium;
   } else {
@@ -116,8 +114,13 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
         isActive: values.isActive,
       };
 
+      console.log(editEmployeePayload);
+
       try {
-        var employeeData = await editEmployee(editEmployeePayload)
+        var employeeData = await editEmployee({
+          id: employeeDetails.id,
+          body: editEmployeePayload,
+        })
           .unwrap()
           .then((result) => {
             console.log(result);
