@@ -36,6 +36,7 @@ export default function EditFormDialog({
           <EditEmployee
             employeeDetails={employeeBeforeEdit}
             skillLevelsToSelect={skillLevelsToSelect}
+            setOpen={setOpen}
           />
         </DialogContent>
         <DialogActions>

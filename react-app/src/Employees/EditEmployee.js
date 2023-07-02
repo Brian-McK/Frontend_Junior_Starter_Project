@@ -58,7 +58,11 @@ const validationSchemaEditEmployee = yup.object({
   isActive: yup.boolean().required(),
 });
 
-export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
+export default function EditEmployee({
+  employeeDetails,
+  skillLevelsToSelect,
+  setOpen,
+}) {
   const theme = useTheme();
 
   const [employeesSkills, setEmployeesSkills] = useState(
@@ -82,8 +86,8 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
 
   // reset form if successfull
   React.useEffect(() => {
-    console.log(isSuccess);
-  }, [isSuccess == true]);
+    setOpen(!isSuccess);
+  }, [isSuccess === true]);
 
   const menuItemStyle = {
     "&.Mui-selected": {
@@ -113,8 +117,6 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
         skillLevelIds: employeesSkills.map((obj) => obj.id),
         isActive: values.isActive,
       };
-
-      console.log(editEmployeePayload);
 
       try {
         var employeeData = await editEmployee({
