@@ -89,15 +89,6 @@ export default function EditEmployee({
     setOpen(!isSuccess);
   }, [isSuccess === true]);
 
-  const menuItemStyle = {
-    "&.Mui-selected": {
-      color: "green",
-    },
-    "&:hover": {
-      backgroundColor: "lightblue",
-    },
-  };
-
   const formikEditEmployee = useFormik({
     initialValues: {
       firstName: employeeDetails.firstName,
@@ -117,6 +108,8 @@ export default function EditEmployee({
         skillLevelIds: employeesSkills.map((obj) => obj.id),
         isActive: values.isActive,
       };
+
+      console.log(editEmployeePayload);
 
       try {
         await editEmployee({
@@ -271,12 +264,11 @@ export default function EditEmployee({
                 </FormControl>
 
                 <FormControlLabel
-                  value={"start"}
                   control={
                     <Switch
                       disabled={isLoading}
                       id="isActive"
-                      defaultChecked
+                      checked={formikEditEmployee.values.isActive}
                       value={formikEditEmployee.values.isActive}
                       onChange={formikEditEmployee.handleChange}
                     />

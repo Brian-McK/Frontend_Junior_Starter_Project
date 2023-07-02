@@ -70,11 +70,6 @@ export default function Employees({ skillLevelsToSelect }) {
     setEmployeeData(userData);
 
     setOpen(true);
-
-    // const confirmed = await showDialog({
-    //   title: `${"Edit Employee Details"}`,
-    //   message: `${"Message goes here"}`,
-    // });
   };
 
   const handleConfirmDeleteEmployee = async (params) => {
@@ -125,10 +120,10 @@ export default function Employees({ skillLevelsToSelect }) {
       description: "Shows wether the employee is active or not",
       width: 70,
       valueGetter: (params) => {
-        if (params.row.IsActive) {
-          return `No`;
+        if (params.row.isActive) {
+          return `Yes`;
         }
-        return `Yes`;
+        return `No`;
       },
     },
     {
