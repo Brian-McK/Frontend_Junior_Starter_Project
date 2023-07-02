@@ -82,8 +82,8 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
 
   // reset form if successfull
   React.useEffect(() => {
-    formikEditEmployee.resetForm();
-  }, [isSuccess]);
+    console.log(isSuccess);
+  }, [isSuccess == true]);
 
   const menuItemStyle = {
     "&.Mui-selected": {
@@ -124,6 +124,8 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
           .unwrap()
           .then((result) => {
             console.log(result);
+
+            employeeDetails = result;
           });
       } catch (error) {
         console.log(error);
@@ -147,6 +149,7 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
             <form onSubmit={formikEditEmployee.handleSubmit}>
               <Stack spacing={2}>
                 <TextField
+                  disabled={isLoading}
                   variant="filled"
                   fullWidth
                   id="firstName"
@@ -166,6 +169,7 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
                 />
 
                 <TextField
+                  disabled={isLoading}
                   variant="filled"
                   fullWidth
                   id="lastName"
@@ -185,6 +189,7 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
                 />
 
                 <DatePicker
+                  disabled={isLoading}
                   inputFormat="DD/MM/YYYY"
                   label="Date of birth"
                   views={["year", "month", "day"]}
@@ -210,6 +215,7 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
                 />
 
                 <TextField
+                  disabled={isLoading}
                   variant="filled"
                   fullWidth
                   id="email"
@@ -231,6 +237,7 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
                 <FormControl sx={{ m: 1 }}>
                   <InputLabel id="selectSkillsLabel">Skills</InputLabel>
                   <Select
+                    disabled={isLoading}
                     labelId="selectSkillsLabel"
                     id="selectSkills"
                     multiple
@@ -249,6 +256,7 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
                   >
                     {skillLevelsToSelect.map((item) => (
                       <MenuItem
+                        disabled={isLoading}
                         key={item.id}
                         value={item}
                         onClick={() => handleMenuItemSelect(item)}
@@ -264,6 +272,7 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
                   value={"start"}
                   control={
                     <Switch
+                      disabled={isLoading}
                       id="isActive"
                       defaultChecked
                       value={formikEditEmployee.values.isActive}
@@ -277,10 +286,10 @@ export default function EditEmployee({ employeeDetails, skillLevelsToSelect }) {
                   color="primary"
                   variant="contained"
                   fullWidth
-                  // disabled={isLoading}
+                  disabled={isLoading}
                   type="submit"
                 >
-                  Submit
+                  Update
                 </Button>
               </Stack>
             </form>
