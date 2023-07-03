@@ -11,7 +11,7 @@ import {
   ListItemText,
   Divider,
 } from "@mui/material";
-import { createContext, useContext, useState } from "react";
+import { Fragment, createContext, useContext, useState } from "react";
 
 const DialogContext = createContext();
 
@@ -59,7 +59,7 @@ const DialogProvider = ({ children }) => {
               <Grid item>
                 <List>
                   {options.displayList.map((item, index) => (
-                    <>
+                    <Fragment key={index}>
                       <ListItem key={index}>
                         <ListItemText
                           primary={`${item.primary}` || null}
@@ -67,7 +67,7 @@ const DialogProvider = ({ children }) => {
                         />
                       </ListItem>
                       <Divider />
-                    </>
+                    </Fragment>
                   ))}
                 </List>
               </Grid>
