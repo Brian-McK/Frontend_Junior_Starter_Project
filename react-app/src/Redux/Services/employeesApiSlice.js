@@ -29,6 +29,7 @@ export const employeesApiSlice = apiSlice
         query: (id) => ({
           url: `employees/${id}`,
           method: "DELETE",
+          responseHandler: "text",
         }),
         invalidatesTags: ["Employees"],
       }),

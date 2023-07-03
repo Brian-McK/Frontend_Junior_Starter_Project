@@ -19,6 +19,7 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import { SnackbarContext } from "../Providers/SnackbarContext";
 
 import { useAddEmployeeMutation } from "../Redux/Services/employeesApiSlice";
 
@@ -54,6 +55,8 @@ const validationSchemaAddEmployee = yup.object({
 
 export default function AddEmployee({ skillLevelsToSelect }) {
   const theme = useTheme();
+
+  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [employeesSkills, setEmployeesSkills] = useState([]);
 
@@ -97,9 +100,11 @@ export default function AddEmployee({ skillLevelsToSelect }) {
       try {
         await addEmployee(addEmployeePayload)
           .unwrap()
-          .then((result) => {});
+          .then((result) => {
+            showSnackbar(`Successfully Added!`);
+          });
       } catch (error) {
-        console.log(error);
+        showSnackbar(`${error.data}`);
       }
     },
   });

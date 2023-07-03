@@ -20,6 +20,7 @@ import {
   useDeleteEmployeeMutation,
 } from "../Redux/Services/employeesApiSlice";
 import EditFormDialog from "../Common/EditFormDialog";
+import { SnackbarContext } from "../Providers/SnackbarContext";
 
 function CustomToolbar() {
   return (
@@ -33,6 +34,8 @@ function CustomToolbar() {
 
 export default function Employees({ skillLevelsToSelect }) {
   const showDialog = useDialog();
+
+  const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [open, setOpen] = React.useState(false);
 
@@ -78,7 +81,16 @@ export default function Employees({ skillLevelsToSelect }) {
       message: `Are you sure you want to delete ${params.row.firstName}?`,
     });
     if (confirmed) {
-      deleteEmployee(params.id);
+      try {
+        await deleteEmployee(params.id)
+          .unwrap()
+          .then((result) => {
+            console.log(result);
+            showSnackbar(`Successfully Deleted!`);
+          });
+      } catch (error) {
+        showSnackbar(`${error.data}`);
+      }
     }
   };
 

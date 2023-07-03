@@ -21,6 +21,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { useEditEmployeeMutation } from "../Redux/Services/employeesApiSlice";
 import { isEqual, _ } from "lodash";
+import { SnackbarContext } from "../Providers/SnackbarContext";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -65,6 +66,8 @@ export default function EditEmployee({
 }) {
   const theme = useTheme();
 
+  const { showSnackbar } = React.useContext(SnackbarContext);
+
   const [employeesSkills, setEmployeesSkills] = useState(
     employeeDetails.skillLevels
   );
@@ -84,7 +87,6 @@ export default function EditEmployee({
   const [editEmployee, { data, isError, isLoading, isSuccess, error }] =
     useEditEmployeeMutation();
 
-  // reset form if successfull
   React.useEffect(() => {
     setOpen(!isSuccess);
   }, [isSuccess === true]);
@@ -121,9 +123,11 @@ export default function EditEmployee({
             console.log(result);
 
             employeeDetails = result;
+
+            showSnackbar(`Successfully Updated!`);
           });
       } catch (error) {
-        console.log(error);
+        showSnackbar(`${error.data}`);
       }
     },
   });
