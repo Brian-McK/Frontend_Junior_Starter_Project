@@ -58,13 +58,3 @@ export const apiSlice = createApi({
   baseQuery: baseQueryWithReAuth,
   endpoints: (builder) => ({}),
 });
-
-// export const {
-//   useAuthenticateUserMutation,
-//   useGetAllEmployeesQuery,
-//   useGetEmployeeByIdQuery,
-//   useAddEmployeeMutation,
-//   useEditEmployeeMutation,
-//   useDeleteEmployeeMutation,
-//   useGetAllSkillLevelsQuery,
-// } = employeeSkillLevelsApi;

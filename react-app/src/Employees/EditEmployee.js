@@ -124,10 +124,10 @@ export default function EditEmployee({
 
             employeeDetails = result;
 
-            showSnackbar(`Successfully Updated!`);
+            showSnackbar(`Successfully Updated!`, "green");
           });
       } catch (error) {
-        showSnackbar(`${error.data}`);
+        showSnackbar(`${error.data}`, "red");
       }
     },
   });

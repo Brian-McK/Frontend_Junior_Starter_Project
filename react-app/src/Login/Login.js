@@ -53,7 +53,7 @@ export default function Login() {
           showSnackbar(`Welcome ${loginDetails.username}!`);
         })
         .catch((error) => {
-          showSnackbar(`${error.data}`);
+          showSnackbar(`${error.data}`, "red");
         });
     },
   });

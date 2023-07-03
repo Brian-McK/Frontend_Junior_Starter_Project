@@ -101,10 +101,10 @@ export default function AddEmployee({ skillLevelsToSelect }) {
         await addEmployee(addEmployeePayload)
           .unwrap()
           .then((result) => {
-            showSnackbar(`Successfully Added!`);
+            showSnackbar(`Successfully Added!`, "green");
           });
       } catch (error) {
-        showSnackbar(`${error.data}`);
+        showSnackbar(`${error.data}`, "red");
       }
     },
   });

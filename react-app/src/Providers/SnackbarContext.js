@@ -26,7 +26,11 @@ const SnackbarProvider = ({ children }) => {
         autoHideDuration={3000}
         onClose={hideSnackbar}
         message={snackbarMessage}
-        color={snackbarColor} // need to fix this
+        ContentProps={{
+          sx: {
+            background: snackbarColor
+          }
+        }} // need to fix this
       />
     </SnackbarContext.Provider>
   );
