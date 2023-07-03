@@ -86,10 +86,10 @@ export default function Employees({ skillLevelsToSelect }) {
           .unwrap()
           .then((result) => {
             console.log(result);
-            showSnackbar(`Successfully Deleted!`);
+            showSnackbar(`Successfully Deleted!`, "green");
           });
       } catch (error) {
-        showSnackbar(`${error.data}`);
+        showSnackbar(`${error.data}`, "red");
       }
     }
   };
