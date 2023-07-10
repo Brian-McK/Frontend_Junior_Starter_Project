@@ -81,6 +81,7 @@ export default function Login() {
           <form onSubmit={formikLoginUser.handleSubmit}>
             <Stack spacing={2}>
               <TextField
+                disabled={isLoading}
                 variant="filled"
                 fullWidth
                 id="username"
@@ -103,6 +104,7 @@ export default function Login() {
                 autoComplete="off"
                 variant="filled"
                 fullWidth
+                disabled={isLoading}
                 id="password"
                 type="password"
                 name="password"
@@ -128,9 +130,19 @@ export default function Login() {
               >
                 Login
               </Button>
-
-              {isLoading && <CircularProgress />}
             </Stack>
+
+            {isLoading && (
+              <Stack
+                spacing={10}
+                sx={{
+                  alignItems: "center",
+                  padding: "24px",
+                }}
+              >
+                <CircularProgress size={50} />
+              </Stack>
+            )}
           </form>
         </Grid>
       </Grid>

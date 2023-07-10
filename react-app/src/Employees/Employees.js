@@ -1,6 +1,7 @@
 import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import dayjs from "dayjs";
 import {
@@ -15,6 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useDialog } from "../Providers/DialogContext";
 import PsychologyIcon from "@mui/icons-material/Psychology";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import {
   useGetAllEmployeesQuery,
   useDeleteEmployeeMutation,
@@ -29,6 +31,18 @@ function CustomToolbar() {
       <GridToolbarExport printOptions={{ disableToolbarButton: true }} />
       <GridToolbarQuickFilter sx={{ marginLeft: "auto" }} />
     </GridToolbarContainer>
+  );
+}
+
+function CustomNoRowsOverlay() {
+  return (
+    <Grid container spacing={2} justifyContent={"center"}>
+      <Grid item>
+        <Typography variant="h5">
+          No employee data available <SentimentVeryDissatisfiedIcon />
+        </Typography>
+      </Grid>
+    </Grid>
   );
 }
 
@@ -187,7 +201,7 @@ export default function Employees({ skillLevelsToSelect }) {
           >
             <h4>Employees</h4>
             {/* Table Start */}
-            <Box sx={{ height: 500, width: "100%" }}>
+            <Box sx={{ maxHeight: 500, width: "100%" }}>
               {isError && (
                 <>
                   <p>{JSON.stringify(error, null, 2)}</p>
@@ -197,7 +211,7 @@ export default function Employees({ skillLevelsToSelect }) {
               {isSuccess && (
                 <DataGrid
                   loading={isLoading}
-                  rows={employees}
+                  rows={employees ?? []}
                   getRowId={(row) => row.id}
                   columns={dataGridDataCols}
                   autoHeight
@@ -212,7 +226,10 @@ export default function Employees({ skillLevelsToSelect }) {
                   rowsPerPageOptions={[5]}
                   checkboxSelection
                   disableSelectionOnClick
-                  slots={{ toolbar: CustomToolbar }}
+                  slots={{
+                    toolbar: CustomToolbar,
+                    noRowsOverlay: CustomNoRowsOverlay,
+                  }}
                   experimentalFeatures={{ newEditingApi: true }}
                 />
               )}

@@ -10,7 +10,7 @@ function Copyright(props) {
       align="center"
       {...props}
     >
-      {"Created by Brian McKenna "}
+      {"Brian McKenna "}
       {new Date().getFullYear()}
     </Typography>
   );
