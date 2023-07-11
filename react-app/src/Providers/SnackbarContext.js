@@ -30,7 +30,7 @@ const SnackbarProvider = ({ children }) => {
           sx: {
             background: snackbarColor
           }
-        }} // need to fix this
+        }}
       />
     </SnackbarContext.Provider>
   );
