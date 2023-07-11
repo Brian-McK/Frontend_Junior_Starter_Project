@@ -22,6 +22,7 @@ import Switch from "@mui/material/Switch";
 import { useEditEmployeeMutation } from "../Redux/Services/employeesApiSlice";
 import { isEqual, _ } from "lodash";
 import { SnackbarContext } from "../Providers/SnackbarContext";
+import { validationSchemaEmployeeForms } from "../ValidationSchemas/formSchema";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -50,14 +51,6 @@ function getStyles(item, employeeSkills, theme) {
 }
 
 const today = dayjs();
-
-const validationSchemaEditEmployee = yup.object({
-  firstName: yup.string("Enter first name").required("First name is required"),
-  lastName: yup.string("Enter last name").required("Last name is required"),
-  dob: yup.date().nonNullable("Cant be empty").typeError("Invalid Date"),
-  email: yup.string().required("Email is required").email(),
-  isActive: yup.boolean().required(),
-});
 
 export default function EditEmployee({
   employeeDetails,
@@ -100,7 +93,7 @@ export default function EditEmployee({
       skillLevels: employeeDetails.skillLevels,
       isActive: employeeDetails.isActive,
     },
-    validationSchema: validationSchemaEditEmployee,
+    validationSchema: validationSchemaEmployeeForms,
     onSubmit: async (values) => {
       const editEmployeePayload = {
         firstName: values.firstName,
@@ -188,6 +181,8 @@ export default function EditEmployee({
                 />
 
                 <DatePicker
+                  disableFuture
+                  maxDate={today.subtract(18, "year")}
                   disabled={isLoading}
                   inputFormat="DD/MM/YYYY"
                   label="Date of birth"
