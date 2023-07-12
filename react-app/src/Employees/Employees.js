@@ -103,7 +103,12 @@ export default function Employees({ skillLevelsToSelect }) {
             showSnackbar(`Successfully Deleted!`, "green");
           });
       } catch (error) {
-        showSnackbar(`${error.data}`, "red");
+        if (error.status === 401) {
+          showSnackbar(
+            `Unauthorized Access, You have been logged out!`,
+            "red"
+          );
+        }
       }
     }
   };
