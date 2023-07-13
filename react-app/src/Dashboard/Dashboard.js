@@ -78,7 +78,7 @@ function DashboardContent() {
 
   const welcomeMessage = user ? `Welcome ${user}!` : "Welcome!";
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
