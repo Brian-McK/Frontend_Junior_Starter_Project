@@ -23,6 +23,7 @@ import {
 } from "../Redux/Services/employeesApiSlice";
 import EditFormDialog from "../Common/EditFormDialog";
 import { SnackbarContext } from "../Providers/SnackbarContext";
+import { useNavigate } from "react-router-dom";
 
 function CustomToolbar() {
   return (
@@ -48,6 +49,8 @@ function CustomNoRowsOverlay() {
 
 export default function Employees({ skillLevelsToSelect }) {
   const showDialog = useDialog();
+
+  const navigate = useNavigate();
 
   const { showSnackbar } = React.useContext(SnackbarContext);
 
@@ -104,10 +107,9 @@ export default function Employees({ skillLevelsToSelect }) {
           });
       } catch (error) {
         if (error.status === 401) {
-          showSnackbar(
-            `Unauthorized Access, You have been logged out!`,
-            "red"
-          );
+          navigate("/login");
+
+          showSnackbar(`Unauthorized Access, You have been logged out!`, "red");
         }
       }
     }

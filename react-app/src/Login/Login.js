@@ -44,27 +44,27 @@ export default function Login() {
       await login(loginDetails)
         .unwrap()
         .then((result) => {
-
-          console.log(result);
-
           localStorage.setItem("token", result.jwtToken);
           localStorage.setItem("username", result.username);
         })
-        .finally(() => {
-          navigate("/dashboard/employees");
-
+        .then(() => {
           showSnackbar(`Welcome ${loginDetails.username}!`);
+          navigate("/dashboard/employees");
         })
         .catch((error) => {
-          if (error.status === 400) {
-            // show errors from server
-            showSnackbar(
-              `${Object.entries(error.data.errors).map(
-                ([key, value]) => key + ": " + value
-              )}`,
-              "red"
-            );
+          console.log("caught", error);
+
+          let errorMessages = [];
+
+          if (error) {
+            if (error.data && error.data.errors) {
+              errorMessages.push(...Object.values(error.data.errors));
+            } else {
+              errorMessages.push(error.data);
+            }
           }
+
+          showSnackbar(errorMessages, "red");
         });
     },
   });

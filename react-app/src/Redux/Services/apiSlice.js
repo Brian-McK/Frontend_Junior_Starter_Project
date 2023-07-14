@@ -5,10 +5,9 @@ const baseQuery = fetchBaseQuery({
   baseUrl: "https://localhost:7100/api/",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
-
     const token = localStorage.getItem("token");
 
-    console.log(token);
+    console.log("baseQuery", token);
 
     // add to localStorage too?
     headers.append("Content-Type", "application/json");
@@ -24,7 +23,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReAuth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  const user = api.getState().auth.user;
+  const user = localStorage.getItem("username");
 
   if (result?.error?.status === 401) {
     console.log("sending refresh token");
