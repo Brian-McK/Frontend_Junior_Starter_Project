@@ -104,8 +104,6 @@ export default function EditEmployee({
         isActive: values.isActive,
       };
 
-      console.log(editEmployeePayload);
-
       try {
         await editEmployee({
           id: employeeDetails.id,
@@ -113,7 +111,6 @@ export default function EditEmployee({
         })
           .unwrap()
           .then((result) => {
-            console.log(result);
 
             employeeDetails = result;
 

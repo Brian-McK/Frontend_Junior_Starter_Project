@@ -16,12 +16,6 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ListItems from "./ListItems";
 import DrawerInfo from "./DrawerInfo";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import {
-  selectCurrentUser,
-  selectCurrentToken,
-} from "../Redux/Services/authSlice";
-import { Link } from "react-router-dom";
 import Layout from "../Common/Layout";
 
 const drawerWidth = 260;
@@ -73,8 +67,7 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function DashboardContent() {
-  const user = useSelector(selectCurrentUser);
-  const token = useSelector(selectCurrentToken);
+  const user = localStorage.getItem("username");
 
   const welcomeMessage = user ? `Welcome ${user}!` : "Welcome!";
 

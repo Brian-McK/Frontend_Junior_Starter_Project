@@ -1,11 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setCredentials, logOut, selectCurrentUser } from "./authSlice";
+import { logOut } from "./authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://localhost:7100/api/",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
-    const token = getState().auth.token;
+
+    const token = localStorage.getItem("token");
+
+    console.log(token);
 
     // add to localStorage too?
     headers.append("Content-Type", "application/json");
@@ -31,17 +34,18 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       {
         url: "Auth/refresh-token",
         method: "POST",
-        body: JSON.stringify(user), // admintest
+        body: JSON.stringify(user),
       },
       api,
       extraOptions
     );
 
     if (refreshResult?.data) {
-      const user = api.getState().auth.user;
+      console.log(refreshResult);
       // store the new token
-      api.dispatch(setCredentials({ ...refreshResult.data }));
-      // retry the original query with the new access token
+      localStorage.setItem("token", refreshResult.data.jwtToken);
+      localStorage.setItem("username", refreshResult.data.username);
+
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOut());

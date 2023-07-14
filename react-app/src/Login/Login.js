@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import PeopleIcon from "@mui/icons-material/People";
-import { setCredentials } from "../Redux/Services/authSlice";
 import { useLoginMutation } from "../Redux/Services/authApiSlice";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch } from "react-redux";
@@ -45,7 +44,11 @@ export default function Login() {
       await login(loginDetails)
         .unwrap()
         .then((result) => {
-          dispatch(setCredentials(result));
+
+          console.log(result);
+
+          localStorage.setItem("token", result.jwtToken);
+          localStorage.setItem("username", result.username);
         })
         .finally(() => {
           navigate("/dashboard/employees");

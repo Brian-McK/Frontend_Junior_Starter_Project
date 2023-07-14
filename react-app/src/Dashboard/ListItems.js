@@ -6,17 +6,15 @@ import { ListItem } from "@mui/material";
 import PeopleIcon from "@mui/icons-material/People";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
-import { logOut } from "../Redux/Services/authSlice";
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../Redux/Services/authApiSlice";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { selectCurrentUser } from "../Redux/Services/authSlice";
 import { SnackbarContext } from "../Providers/SnackbarContext";
 
 export default function ListItems() {
-  const dispatch = useDispatch();
 
-  const user = useSelector(selectCurrentUser);
+  const navigate = useNavigate();
+
+  const user = localStorage.getItem("username");
 
   const { showSnackbar } = React.useContext(SnackbarContext);
 
@@ -26,7 +24,10 @@ export default function ListItems() {
     await logout()
       .unwrap()
       .then((result) => {
-        dispatch(logOut());
+
+        localStorage.clear();
+
+        navigate("/");
 
         showSnackbar(`Bye Bye ${user}!`);
       })
