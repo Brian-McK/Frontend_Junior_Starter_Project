@@ -116,6 +116,10 @@ export default function Employees({ skillLevelsToSelect }) {
     }
   };
 
+  const isEmptyObject = (obj) => {
+    return Object.keys(obj).length === 0;
+  };
+
   const dataGridDataCols = [
     {
       field: "firstName",
@@ -168,9 +172,9 @@ export default function Employees({ skillLevelsToSelect }) {
       width: 100,
       getActions: (params) => [
         <GridActionsCellItem
-          disabled={Object.keys(params.row.skillLevels).length === 0}
+          disabled={isEmptyObject(params.row.skillLevels)}
           icon={
-            Object.keys(params.row.skillLevels).length === 0 ? (
+            isEmptyObject(params.row.skillLevels) ? (
               <PsychologyIcon sx={{ color: "grey" }} />
             ) : (
               <PsychologyIcon sx={{ color: "#2c8535" }} />
