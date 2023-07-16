@@ -168,7 +168,14 @@ export default function Employees({ skillLevelsToSelect }) {
       width: 100,
       getActions: (params) => [
         <GridActionsCellItem
-          icon={<PsychologyIcon sx={{ color: "#2c8535" }} />}
+          disabled={Object.keys(params.row.skillLevels).length === 0}
+          icon={
+            Object.keys(params.row.skillLevels).length === 0 ? (
+              <PsychologyIcon sx={{ color: "grey" }} />
+            ) : (
+              <PsychologyIcon sx={{ color: "#2c8535" }} />
+            )
+          }
           label="View skill levels"
           onClick={() => handleViewEmployeeSkillLevelsOpenDialog(params)}
         />,
