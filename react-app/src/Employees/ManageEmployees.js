@@ -4,19 +4,34 @@ import Employees from "./Employees";
 import Title from "../Common/Title";
 import AddEmployee from "./AddEmployee";
 import { useGetAllSkillLevelsQuery } from "../Redux/Services/skillLevelsApiSlice";
+import CustomError from "../Common/CustomError";
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 
 export default function ManageEmployees() {
   const {
     data: skillLevels = [],
-    isLoading: isLoadingSkillLevels,
     isSuccess: isSuccessSkillLevels,
     isError: isErrorSkillLevels,
-    error: skillLevelsError,
+    refetch,
   } = useGetAllSkillLevelsQuery();
+
+  const refetchData = () => {
+    refetch();
+  };
 
   return (
     <>
       <Title>Manage Employees</Title>
+      {isErrorSkillLevels && (
+        <CustomError
+          message={"Error loading data. Please try again soon or refetch data."}
+          icon={<ReportProblemIcon />}
+          iconColor={"error"}
+          refetchButton={true}
+          refetchData={refetchData}
+        />
+      )}
+
       {isSuccessSkillLevels && (
         <Grid container spacing={3} justifyContent={"center"}>
           <Grid item xs={12} sm={12} md={6} lg={4}>
