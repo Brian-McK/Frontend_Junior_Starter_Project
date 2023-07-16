@@ -24,6 +24,8 @@ import {
 import EditFormDialog from "../Common/EditFormDialog";
 import { SnackbarContext } from "../Providers/SnackbarContext";
 import { useNavigate } from "react-router-dom";
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import CustomError from "../Common/CustomError";
 
 function CustomToolbar() {
   return (
@@ -63,7 +65,6 @@ export default function Employees({ skillLevelsToSelect }) {
     isLoading,
     isSuccess,
     isError,
-    error,
   } = useGetAllEmployeesQuery();
 
   const [deleteEmployee, result] = useDeleteEmployeeMutation();
@@ -211,7 +212,13 @@ export default function Employees({ skillLevelsToSelect }) {
             <Box sx={{ maxHeight: 500, width: "100%" }}>
               {isError && (
                 <>
-                  <p>{JSON.stringify(error, null, 2)}</p>
+                  <CustomError
+                    message={`
+                      Error fetching the employee data. Please try again soon!
+                    `}
+                    icon={<ReportProblemIcon />}
+                    iconColor={"error"}
+                  />
                 </>
               )}
 
