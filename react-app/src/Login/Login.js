@@ -41,31 +41,30 @@ export default function Login() {
         password: values.password,
       };
 
-      await login(loginDetails)
-        .unwrap()
-        .then((result) => {
-          localStorage.setItem("token", result.jwtToken);
-          localStorage.setItem("username", result.username);
-        })
-        .then(() => {
-          showSnackbar(`Welcome ${loginDetails.username}!`);
-          navigate("/dashboard/employees");
-        })
-        .catch((error) => {
-          console.log("caught", error);
+      try {
+        const result = await login(loginDetails).unwrap();
 
-          let errorMessages = [];
+        localStorage.setItem("token", result.jwtToken);
+        localStorage.setItem("username", result.username);
 
-          if (error) {
-            if (error.data && error.data.errors) {
-              errorMessages.push(...Object.values(error.data.errors));
-            } else {
-              errorMessages.push(error.data);
-            }
-          }
+        showSnackbar(`Welcome ${loginDetails.username}!`);
+        navigate("/dashboard/employees");
+      } catch (error) {
+        if (error.status === "FETCH_ERROR") {
+          showSnackbar("Connection refused, please try again", "red");
+          return;
+        }
 
-          showSnackbar(errorMessages, "red");
-        });
+        let errorMessages = [];
+
+        if (error.data && error.data.errors) {
+          errorMessages = Object.values(error.data.errors);
+        } else {
+          errorMessages.push(error.data);
+        }
+
+        showSnackbar(errorMessages, "red");
+      }
     },
   });
 
