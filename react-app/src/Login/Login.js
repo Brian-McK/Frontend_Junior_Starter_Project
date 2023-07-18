@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import PeopleIcon from "@mui/icons-material/People";
 import { useLoginMutation } from "../Redux/Services/authApiSlice";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useDispatch } from "react-redux";
 import { SnackbarContext } from "../Providers/SnackbarContext";
 
 const theme = createTheme();
@@ -22,8 +21,6 @@ const validationSchemaLoginUser = yup.object({
 
 export default function Login() {
   const navigate = useNavigate();
-
-  const dispatch = useDispatch();
 
   const { showSnackbar } = React.useContext(SnackbarContext);
 
