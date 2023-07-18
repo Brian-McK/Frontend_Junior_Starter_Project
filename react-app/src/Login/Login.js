@@ -60,7 +60,7 @@ export default function Login() {
           errorMessages.push(error.data);
         }
 
-        showSnackbar(errorMessages, "red");
+        showSnackbar(errorMessages, "red", 8000);
       }
     },
   });

@@ -6,8 +6,6 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const token = localStorage.getItem("token");
 
-    console.log("baseQuery", token);
-
     // add to localStorage too?
     headers.append("Content-Type", "application/json");
 
@@ -24,10 +22,11 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
   const user = localStorage.getItem("username");
 
+  // if unauthorized is the status, send a request to get new access token
   if (result?.error?.status === 401) {
     console.log("sending refresh token");
-    // send the refresh token to get new access token
 
+    // send the refresh token to get new access token
     const refreshResult = await baseQuery(
       {
         url: "Auth/refresh-token",
@@ -38,12 +37,13 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       extraOptions
     );
 
+    // if the refresh endpoint sends back response with the data, set the token to the local storage
     if (refreshResult?.data) {
-      console.log(refreshResult);
       // store the new token
       localStorage.setItem("token", refreshResult.data.jwtToken);
       localStorage.setItem("username", refreshResult.data.username);
 
+      // try the query again
       result = await baseQuery(args, api, extraOptions);
     } else {
       console.log("clear local storage, sign out");

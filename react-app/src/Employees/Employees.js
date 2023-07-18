@@ -26,6 +26,8 @@ import { SnackbarContext } from "../Providers/SnackbarContext";
 import { useNavigate } from "react-router-dom";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CustomError from "../Common/CustomError";
+import LinearProgress from "@mui/material/LinearProgress";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 
 function CustomToolbar() {
   return (
@@ -103,7 +105,6 @@ export default function Employees({ skillLevelsToSelect }) {
         await deleteEmployee(params.id)
           .unwrap()
           .then((result) => {
-            console.log(result);
             showSnackbar(`Successfully Deleted!`, "green");
           });
       } catch (error) {
@@ -231,6 +232,21 @@ export default function Employees({ skillLevelsToSelect }) {
                     iconColor={"error"}
                   />
                 </>
+              )}
+
+              {isLoading && (
+                <Box
+                  sx={{
+                    width: "100%",
+                  }}
+                >
+                  <CustomError
+                    message={"Loading in progress..."}
+                    icon={<HourglassBottomIcon />}
+                    iconColor={"black"}
+                  />
+                  <LinearProgress />
+                </Box>
               )}
 
               {isSuccess && (

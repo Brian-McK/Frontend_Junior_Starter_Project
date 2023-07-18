@@ -7,11 +7,13 @@ const SnackbarProvider = ({ children }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarColor, setSnackbarColor] = useState("default");
+  const [snackbarDuration, setSnackbarDuration] = useState(3000);
 
-  const showSnackbar = (message, color = "default") => {
+  const showSnackbar = (message, color = "default", snackbarDuration) => {
     setSnackbarMessage(message);
     setSnackbarColor(color);
     setSnackbarOpen(true);
+    setSnackbarDuration(snackbarDuration);
   };
 
   const hideSnackbar = () => {
@@ -23,7 +25,7 @@ const SnackbarProvider = ({ children }) => {
       {children}
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={3000}
+        autoHideDuration={snackbarDuration}
         onClose={hideSnackbar}
         message={snackbarMessage}
         ContentProps={{

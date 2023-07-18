@@ -22,6 +22,7 @@ import Switch from "@mui/material/Switch";
 import { SnackbarContext } from "../Providers/SnackbarContext";
 import { validationSchemaEmployeeForms } from "../ValidationSchemas/formSchema";
 import { useAddEmployeeMutation } from "../Redux/Services/employeesApiSlice";
+import { useNavigate } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -47,6 +48,8 @@ const today = dayjs();
 
 export default function AddEmployee({ skillLevelsToSelect }) {
   const theme = useTheme();
+
+  const navigate = useNavigate();
 
   const { showSnackbar } = React.useContext(SnackbarContext);
 
@@ -96,7 +99,15 @@ export default function AddEmployee({ skillLevelsToSelect }) {
             showSnackbar(`Successfully Added!`, "green");
           });
       } catch (error) {
-        showSnackbar(`${error.data}`, "red");
+        if (error.status === "FETCH_ERROR") {
+          showSnackbar("Connection refused, please try again", "red");
+        }
+
+        if (error.status === 401) {
+          navigate("/login");
+
+          showSnackbar(`Unauthorized Access, You have been logged out!`, "red");
+        }
       }
     },
   });
