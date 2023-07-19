@@ -222,7 +222,7 @@ export default function Employees({ skillLevelsToSelect }) {
             <h4>Employees</h4>
             {/* Table Start */}
             <Box sx={{ maxHeight: 500, width: "100%" }}>
-              {isError && (
+              {/* {isError && (
                 <>
                   <CustomError
                     message={`
@@ -232,7 +232,7 @@ export default function Employees({ skillLevelsToSelect }) {
                     iconColor={"error"}
                   />
                 </>
-              )}
+              )} */}
 
               {isLoading && (
                 <Box

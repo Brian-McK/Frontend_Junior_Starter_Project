@@ -45,9 +45,22 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
       // try the query again
       result = await baseQuery(args, api, extraOptions);
+
     } else {
-      console.log("clear local storage, sign out");
-      localStorage.clear();
+      console.log("clear http only cookie & clear local storage, sign out");
+
+      const logoutResult = await baseQuery(
+        {
+          url: "auth/logout",
+          method: "POST",
+        },
+        api,
+        extraOptions
+      );
+
+      if(logoutResult.meta.response.status === 204){
+        localStorage.clear();
+      }
     }
   }
 

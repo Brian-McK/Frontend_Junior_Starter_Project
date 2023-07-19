@@ -99,9 +99,15 @@ export default function AddEmployee({ skillLevelsToSelect }) {
             showSnackbar(`Successfully Added!`, "green");
           });
       } catch (error) {
-        if (error.status === "FETCH_ERROR") {
-          showSnackbar("Connection refused, please try again", "red");
+        let errorMessages = [];
+
+        if (error.data && error.data.errors) {
+          errorMessages = Object.values(error.data.errors);
+        } else {
+          errorMessages.push(error.data);
         }
+
+        showSnackbar(errorMessages, "red", 8000);
 
         if (error.status === 401) {
           navigate("/login");
