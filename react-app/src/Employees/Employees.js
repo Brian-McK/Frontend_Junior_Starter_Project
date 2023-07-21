@@ -69,15 +69,30 @@ export default function Employees({ skillLevelsToSelect }) {
     isError,
   } = useGetAllEmployeesQuery();
 
+  console.log(employees);
+
   const [deleteEmployee, result] = useDeleteEmployeeMutation();
 
+  console.log(skillLevelsToSelect);
+
   const handleViewEmployeeSkillLevelsOpenDialog = async (params) => {
-    const mappedSkillLevels = params.row.skillLevels.map((skillLevel) => {
-      return {
-        id: skillLevel.id,
-        primary: skillLevel.name,
-        secondary: skillLevel.description,
-      };
+    
+    const { skillLevelIds } = params.row;
+
+    const mappedSkillLevels = skillLevelIds.map((skillLevelId) => {
+      const skillLevel = skillLevelsToSelect.find(
+        (sl) => sl.id === skillLevelId.toString()
+      );
+
+      if (skillLevel) {
+        return {
+          id: skillLevel.id,
+          primary: skillLevel.name,
+          secondary: skillLevel.description,
+        };
+      }
+
+      return {};
     });
 
     await showDialog({
@@ -173,9 +188,9 @@ export default function Employees({ skillLevelsToSelect }) {
       width: 100,
       getActions: (params) => [
         <GridActionsCellItem
-          disabled={isEmptyObject(params.row.skillLevels)}
+          disabled={isEmptyObject(params.row.skillLevelIds)}
           icon={
-            isEmptyObject(params.row.skillLevels) ? (
+            isEmptyObject(params.row.skillLevelIds) ? (
               <PsychologyIcon sx={{ color: "grey" }} />
             ) : (
               <PsychologyIcon sx={{ color: "#2c8535" }} />
