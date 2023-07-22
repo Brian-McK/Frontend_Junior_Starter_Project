@@ -37,9 +37,8 @@ const MenuProps = {
 
 function getStyles(item, employeeSkills, theme) {
   var fontWeight;
-  var hover;
 
-  if (employeeSkills.some((skill) => isEqual(skill, item))) {
+  if (employeeSkills.some((skill) => isEqual(skill, item.id))) {
     fontWeight = theme.typography.fontWeightMedium;
   } else {
     fontWeight = theme.typography.fontWeightRegular;
@@ -62,18 +61,26 @@ export default function EditEmployee({
   const { showSnackbar } = React.useContext(SnackbarContext);
 
   const [employeesSkills, setEmployeesSkills] = useState(
-    employeeDetails.skillLevels
+    employeeDetails.skillLevelIds
   );
 
+  const skillLevelIdToSkillLevelDetails = (skillLevelId) => {
+    const skillLevel = skillLevelsToSelect.find((sl) => sl.id === skillLevelId);
+  
+    return skillLevel
+      ? { id: skillLevel.id, name: skillLevel.name }
+      : {};
+  };
+
   const handleMenuItemSelect = (item) => {
-    if (employeesSkills.some((skill) => isEqual(skill, item))) {
+    if (employeesSkills.some((skill) => isEqual(skill, item.id))) {
       setEmployeesSkills(
         employeesSkills.filter((value) => {
-          return !isEqual(value, item);
+          return !isEqual(value, item.id);
         })
       );
     } else {
-      setEmployeesSkills([...employeesSkills, item]);
+      setEmployeesSkills([...employeesSkills, item.id]);
     }
   };
 
@@ -90,7 +97,7 @@ export default function EditEmployee({
       lastName: employeeDetails.lastName,
       dob: employeeDetails.dob,
       email: employeeDetails.email,
-      skillLevels: employeeDetails.skillLevels,
+      skillLevelIds: employeeDetails.skillLevelIds,
       isActive: employeeDetails.isActive,
     },
     validationSchema: validationSchemaEmployeeForms,
@@ -100,7 +107,7 @@ export default function EditEmployee({
         lastName: values.lastName,
         dob: values.dob,
         email: values.email,
-        skillLevelIds: employeesSkills.map((obj) => obj.id),
+        skillLevelIds: employeesSkills,
         isActive: values.isActive,
       };
 
@@ -111,7 +118,6 @@ export default function EditEmployee({
         })
           .unwrap()
           .then((result) => {
-
             employeeDetails = result;
 
             showSnackbar(`Successfully Updated!`, "green");
@@ -238,9 +244,12 @@ export default function EditEmployee({
                     }
                     renderValue={(selected) => (
                       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                        {selected.map((value) => (
-                          <Chip key={value.id} label={value.name} />
-                        ))}
+                        {selected.map((value) => {
+                          // Call your function on the 'value' here
+                        const skillLevel = skillLevelIdToSkillLevelDetails(value);
+
+                          return <Chip key={skillLevel.id} label={skillLevel.name} />;
+                        })}
                       </Box>
                     )}
                     MenuProps={MenuProps}

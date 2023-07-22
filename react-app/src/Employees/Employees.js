@@ -69,11 +69,8 @@ export default function Employees({ skillLevelsToSelect }) {
     isError,
   } = useGetAllEmployeesQuery();
 
-  console.log(employees);
-
   const [deleteEmployee, result] = useDeleteEmployeeMutation();
 
-  console.log(skillLevelsToSelect);
 
   const handleViewEmployeeSkillLevelsOpenDialog = async (params) => {
     
