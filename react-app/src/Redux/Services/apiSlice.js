@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { logOut } from "./authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://localhost:7100/api/",
@@ -61,6 +62,9 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       if(logoutResult.meta.response.status === 204){
         localStorage.clear();
       }
+    }
+  }
+      api.dispatch(logOut());
     }
   }
 
