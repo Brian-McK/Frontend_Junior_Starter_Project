@@ -9,10 +9,14 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../Redux/Services/authApiSlice";
 import { SnackbarContext } from "../Providers/SnackbarContext";
+import { setCredentials } from "../Redux/Services/authSlice";
+import { useDispatch } from "react-redux";
 
 export default function ListItems() {
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const user = localStorage.getItem("username");
 
@@ -24,6 +28,8 @@ export default function ListItems() {
     await logout()
       .unwrap()
       .then((result) => {
+
+        dispatch(logout());
 
         localStorage.clear();
 

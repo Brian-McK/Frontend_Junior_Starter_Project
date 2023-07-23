@@ -12,6 +12,7 @@ import { useLoginMutation } from "../Redux/Services/authApiSlice";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch } from "react-redux";
 import { SnackbarContext } from "../Providers/SnackbarContext";
+import { setCredentials } from "../Redux/Services/authSlice";
 
 const theme = createTheme();
 
@@ -43,6 +44,8 @@ export default function Login() {
 
       try {
         const result = await login(loginDetails).unwrap();
+
+        dispatch(setCredentials(result));
 
         localStorage.setItem("token", result.jwtToken);
         localStorage.setItem("username", result.username);
