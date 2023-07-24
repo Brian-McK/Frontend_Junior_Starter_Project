@@ -1,10 +1,14 @@
-import { useState, useEffect, useLayoutEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 
 const RequireAuth = () => {
   const location = useLocation();
-  const [fromLocalJwt, setFromLocalJwt] = useState(localStorage.getItem("token"));
-  const [fromLocalUsername, setFromLocalUsername] = useState(localStorage.getItem("username"));
+  const [fromLocalJwt, setFromLocalJwt] = useState(
+    localStorage.getItem("token")
+  );
+  const [fromLocalUsername, setFromLocalUsername] = useState(
+    localStorage.getItem("username")
+  );
 
   const refreshTokenAsync = async () => {
     try {
@@ -35,7 +39,7 @@ const RequireAuth = () => {
 
       await refreshTokenAsync().then((res) => {
         setFromLocalJwt(res.jwtToken);
-        setFromLocalUsername(res.username)
+        setFromLocalUsername(res.username);
       });
     };
 

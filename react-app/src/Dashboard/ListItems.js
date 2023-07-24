@@ -9,14 +9,10 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../Redux/Services/authApiSlice";
 import { SnackbarContext } from "../Providers/SnackbarContext";
-import { setCredentials } from "../Redux/Services/authSlice";
-import { useDispatch } from "react-redux";
 
 export default function ListItems() {
 
   const navigate = useNavigate();
-
-  const dispatch = useDispatch();
 
   const user = localStorage.getItem("username");
 
@@ -28,17 +24,21 @@ export default function ListItems() {
     await logout()
       .unwrap()
       .then((result) => {
-
-        dispatch(logout());
-
+        console.log(result);
         localStorage.clear();
-
         navigate("/");
-
         showSnackbar(`Bye Bye ${user}!`);
       })
       .catch((error) => {
-        showSnackbar(`${error.data}`);
+
+        if (error.status === "FETCH_ERROR") {
+          showSnackbar("Connection refused, please try again", "red");
+          return;
+        }
+
+        // console.log(error);
+        
+        // showSnackbar(`${error.data}`);
       });
   };
 

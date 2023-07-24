@@ -66,14 +66,14 @@ export default function Employees({ skillLevelsToSelect }) {
     data: employees,
     isLoading,
     isSuccess,
+    isFetching,
+    isUninitialized,
     isError,
   } = useGetAllEmployeesQuery();
 
   const [deleteEmployee, result] = useDeleteEmployeeMutation();
 
-
   const handleViewEmployeeSkillLevelsOpenDialog = async (params) => {
-    
     const { skillLevelIds } = params.row;
 
     const mappedSkillLevels = skillLevelIds.map((skillLevelId) => {
@@ -121,6 +121,8 @@ export default function Employees({ skillLevelsToSelect }) {
           });
       } catch (error) {
         if (error.status === 401) {
+          localStorage.clear();
+
           navigate("/login");
 
           showSnackbar(`Unauthorized Access, You have been logged out!`, "red");
@@ -234,7 +236,8 @@ export default function Employees({ skillLevelsToSelect }) {
             <h4>Employees</h4>
             {/* Table Start */}
             <Box sx={{ maxHeight: 500, width: "100%" }}>
-              {/* {isError && (
+              
+              {isError && (
                 <>
                   <CustomError
                     message={`
@@ -244,9 +247,9 @@ export default function Employees({ skillLevelsToSelect }) {
                     iconColor={"error"}
                   />
                 </>
-              )} */}
+              )}
 
-              {isLoading && (
+              {isFetching && (
                 <Box
                   sx={{
                     width: "100%",
@@ -261,44 +264,41 @@ export default function Employees({ skillLevelsToSelect }) {
                 </Box>
               )}
 
-              {isSuccess && (
-                <DataGrid
-                  loading={isLoading}
-                  rows={employees ?? []}
-                  getRowId={(row) => row.id}
-                  columns={dataGridDataCols}
-                  autoHeight
-                  initialState={{
-                    pagination: {
-                      paginationModel: {
-                        pageSize: 5,
-                      },
+              <DataGrid
+                loading={isLoading}
+                rows={employees ?? []}
+                getRowId={(row) => row.id}
+                columns={dataGridDataCols}
+                autoHeight
+                initialState={{
+                  pagination: {
+                    paginationModel: {
+                      pageSize: 5,
                     },
-                  }}
-                  pageSizeOptions={[5]}
-                  rowsPerPageOptions={[5]}
-                  checkboxSelection
-                  disableSelectionOnClick
-                  slots={{
-                    toolbar: CustomToolbar,
-                    noRowsOverlay: CustomNoRowsOverlay,
-                  }}
-                  experimentalFeatures={{ newEditingApi: true }}
-                />
-              )}
+                  },
+                }}
+                pageSizeOptions={[5]}
+                rowsPerPageOptions={[5]}
+                checkboxSelection
+                disableSelectionOnClick
+                slots={{
+                  toolbar: CustomToolbar,
+                  noRowsOverlay: CustomNoRowsOverlay,
+                }}
+                experimentalFeatures={{ newEditingApi: true }}
+              />
             </Box>
             {/* Table End */}
           </Paper>
         </Grid>
       </Grid>
-      {isSuccess && (
-        <EditFormDialog
-          open={open}
-          setOpen={setOpen}
-          employeeData={employeeData}
-          skillLevelsToSelect={skillLevelsToSelect}
-        />
-      )}
+
+      <EditFormDialog
+        open={open}
+        setOpen={setOpen}
+        employeeData={employeeData}
+        skillLevelsToSelect={skillLevelsToSelect}
+      />
     </>
   );
 }
