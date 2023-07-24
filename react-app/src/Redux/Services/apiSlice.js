@@ -21,6 +21,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   const user = localStorage.getItem("username");
+  const jwtToken = localStorage.getItem("jwtToken");
 
   // if unauthorized is the status, send a request to get new access token
   if (result?.error?.status === 401) {
@@ -45,7 +46,6 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
       // try the query again
       result = await baseQuery(args, api, extraOptions);
-
     } else {
       console.log("clear http only cookie & clear local storage, sign out");
 
