@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setCredentials, logOut, selectCurrentUser } from "./authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://localhost:7100/api/",
@@ -41,6 +42,12 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
     // if the refresh endpoint sends back response with the data, set the token to the local storage
     if (refreshResult?.data) {
       // store the new token
+
+      const user = selectCurrentUser();
+
+      // store the new token
+      api.dispatch(setCredentials({ ...refreshResult.data }));
+
       localStorage.setItem("token", refreshResult.data.jwtToken);
       localStorage.setItem("username", refreshResult.data.username);
 
@@ -58,8 +65,9 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
         extraOptions
       );
 
-      if(logoutResult.meta.response.status === 204){
+      if (logoutResult.meta.response.status === 204) {
         localStorage.clear();
+        api.dispatch(logOut());
       }
     }
   }
