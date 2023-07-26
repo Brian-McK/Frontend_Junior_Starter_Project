@@ -34,10 +34,10 @@ export default function ManageEmployees() {
 
       {isSuccessSkillLevels && (
         <Grid container spacing={3} justifyContent={"center"}>
-          <Grid item xs={12} sm={12} md={6} lg={4}>
+          <Grid item xs={12} sm={12} md={6} lg={3}>
             <AddEmployee skillLevelsToSelect={skillLevels} />
           </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={8}>
+          <Grid item xs={12} sm={12} md={12} lg={9}>
             <Employees skillLevelsToSelect={skillLevels} />
           </Grid>
         </Grid>
