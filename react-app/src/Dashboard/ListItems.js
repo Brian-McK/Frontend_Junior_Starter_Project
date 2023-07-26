@@ -24,7 +24,6 @@ export default function ListItems() {
     await logout()
       .unwrap()
       .then((result) => {
-        console.log(result);
         localStorage.clear();
         navigate("/");
         showSnackbar(`Bye Bye ${user}!`);
@@ -35,10 +34,6 @@ export default function ListItems() {
           showSnackbar("Connection refused, please try again", "red");
           return;
         }
-
-        // console.log(error);
-        
-        // showSnackbar(`${error.data}`);
       });
   };
 
